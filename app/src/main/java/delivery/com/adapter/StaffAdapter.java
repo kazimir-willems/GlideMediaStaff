@@ -48,9 +48,7 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
         holder.staffLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(parent, item.getStaffName(), Toast.LENGTH_SHORT).show();
-
-                parent.startZoneActivity();
+                parent.startZoneActivity(item);
             }
         });
     }

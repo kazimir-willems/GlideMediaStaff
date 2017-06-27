@@ -5,8 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_marginTop="4dp"
-    android:layout_marginBottom="4dp"
-    android:background="@drawable/button_bg_download">
+    android:layout_marginBottom="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,6 +42,7 @@
                         android:id="@+id/tv_status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
                         style="@style/TextBranchItem"
                         android:textColor="@color/colorGreen"
                         android:text="In Stock"/>
@@ -75,7 +75,7 @@
                     android:id="@+id/iv_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_delete"/>
+                    android:background="@drawable/ic_delete"/>
 
             </LinearLayout>
 
@@ -260,8 +260,7 @@
                 android:layout_height="wrap_content"
                 style="@style/TextBranchItem"
                 android:textColor="@color/colorGreen"
-                android:layout_marginLeft="8dp"
-                android:text="25,456"/>
+                android:layout_marginLeft="8dp"/>
 
         </LinearLayout>
 
@@ -279,10 +278,17 @@
             android:orientation="horizontal">
 
             <Spinner
+                android:id="@+id/warehouse_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"/>
+
+            <Spinner
                 android:id="@+id/zone_spinner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
+                android:layout_weight="1"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"/>
 
             <Spinner
@@ -290,7 +296,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_weight="0.5"/>
+                android:layout_weight="1"/>
 
         </LinearLayout>
 

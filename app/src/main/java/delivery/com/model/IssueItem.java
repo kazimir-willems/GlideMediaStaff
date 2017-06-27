@@ -35,4 +35,9 @@ public class IssueItem implements Serializable{
     public String getIssueName() {
         return issueName;
     }
+
+    @Override
+    public String toString() {
+        return issueName;
+    }
 }

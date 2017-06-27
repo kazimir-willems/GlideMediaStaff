@@ -61,8 +61,9 @@ public class StaffActivity extends AppCompatActivity
         refreshStaff();
     }
 
-    public void startZoneActivity() {
+    public void startZoneActivity(StaffItem staffItem) {
         Intent intent = new Intent(StaffActivity.this, ZoneActivity.class);
+        intent.putExtra("staff", staffItem);
 
         startActivity(intent);
     }

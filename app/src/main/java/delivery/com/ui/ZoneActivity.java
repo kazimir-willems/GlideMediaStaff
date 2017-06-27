@@ -16,6 +16,7 @@ import delivery.com.adapter.WarehouseAdapter;
 import delivery.com.db.WarehouseDB;
 import delivery.com.db.ZoneDB;
 import delivery.com.fragment.ZoneFragment;
+import delivery.com.model.StaffItem;
 import delivery.com.model.WarehouseItem;
 import delivery.com.model.ZoneItem;
 
@@ -27,6 +28,7 @@ public class ZoneActivity extends AppCompatActivity {
     HashMap<String, ArrayList<ZoneItem>> zoneItems = new HashMap<String, ArrayList<ZoneItem>>();
 
     private WarehouseAdapter adapter;
+    private StaffItem staffItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,8 @@ public class ZoneActivity extends AppCompatActivity {
 
         adapter = new WarehouseAdapter(ZoneActivity.this);
         zoneList.setAdapter(adapter);
+
+        staffItem = (StaffItem) getIntent().getSerializableExtra("staff");
 
         for(int i = 0; i < adapter.getGroupCount(); i++) {
             zoneList.expandGroup(i);
@@ -73,6 +77,7 @@ public class ZoneActivity extends AppCompatActivity {
 
         intent.putExtra("warehouse", warehouseItem);
         intent.putExtra("zone", zoneItem);
+        intent.putExtra("staff", staffItem);
 
         startActivity(intent);
     }

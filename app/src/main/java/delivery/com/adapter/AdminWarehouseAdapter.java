@@ -68,7 +68,6 @@ public class AdminWarehouseAdapter extends BaseExpandableListAdapter {
         zoneLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(AdminWarehouseAdapter.this.ctx.getActivity(), zoneItem.getZone(), Toast.LENGTH_SHORT).show();
             }
         });
 

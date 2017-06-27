@@ -110,7 +110,7 @@ public class BayDB extends DBHelper {
 
             final int COL_ID	        = c.getColumnIndexOrThrow(DBConsts.FIELD_ID),
                     COL_BAY_ID     	    = c.getColumnIndexOrThrow(DBConsts.FIELD_BAY_ID),
-                    COL_BAY     	    = c.getColumnIndexOrThrow(DBConsts.FIELD_WAREHOUSE_ID),
+                    COL_BAY     	    = c.getColumnIndexOrThrow(DBConsts.FIELD_BAY),
                     COL_ZONE_ID  		= c.getColumnIndexOrThrow(DBConsts.FIELD_ZONE_ID),
                     COL_WAREHOUSE_ID  	= c.getColumnIndexOrThrow(DBConsts.FIELD_WAREHOUSE_ID);
 

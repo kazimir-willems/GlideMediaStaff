@@ -17,6 +17,7 @@ import delivery.com.R;
 import delivery.com.db.BayDB;
 import delivery.com.fragment.StockFragment;
 import delivery.com.model.BayItem;
+import delivery.com.model.StaffItem;
 import delivery.com.model.WarehouseItem;
 import delivery.com.model.ZoneItem;
 
@@ -31,6 +32,7 @@ public class StockActivity extends AppCompatActivity
     @Bind(R.id.tv_zone)
     TextView tvZone;
 
+    private StaffItem staffItem;
     private ZoneItem zoneItem;
     private WarehouseItem warehouseItem;
     private int tiers = 0;
@@ -45,9 +47,11 @@ public class StockActivity extends AppCompatActivity
 
         ButterKnife.bind(this);
 
+        staffItem = (StaffItem) getIntent().getSerializableExtra("staff");
         zoneItem = (ZoneItem) getIntent().getSerializableExtra("zone");
         warehouseItem = (WarehouseItem) getIntent().getSerializableExtra("warehouse");
 
+        tvStaff.setText(staffItem.getStaffName());
         tvWarehouse.setText(warehouseItem.getName());
         tvZone.setText(zoneItem.getZone());
 
@@ -89,5 +93,9 @@ public class StockActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public StaffItem getStaffItem() {
+        return staffItem;
     }
 }

@@ -59,4 +59,9 @@ public class ZoneItem implements Serializable {
     public int getCompleted() {
         return completed;
     }
+
+    @Override
+    public String toString() {
+        return zone;
+    }
 }

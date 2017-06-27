@@ -6,10 +6,11 @@
     <color name="colorBlack">#FF000000</color>
     <color name="colorGreen">#1b8e15</color>
     <color name="colorGray">#dddddd</color>
-    <color name="colorLightGray">#f4e6e6</color>
+    <color name="colorLightGray">#eeeeee</color>
     <color name="colorRemove">#d90000</color>
     <color name="colorWhite">#FFFFFFFF</color>
     <color name="colorLightBlue">#397c96</color>
     <color name="colorDarkYellow">#ffd24d</color>
     <color name="colorSimpleGray">#585555</color>
+    <color name="colorBackGray">#cccccc</color>
 </resources>

@@ -129,7 +129,8 @@ public class StockInfoStoreTask extends AsyncTask<DownloadStockInfoResponseVo, V
 
                     stockID = jsonStockItem.getString("id");
 
-                    stockItem.setStockId(jsonStockItem.getString("id"));
+                    stockItem.setStockID(jsonStockItem.getString("id"));
+                    stockItem.setTitleID(jsonStockItem.getString("titleid"));
                     stockItem.setWarehouseID(warehouseID);
                     stockItem.setZoneID(zoneID);
                     stockItem.setBayID(bayID);

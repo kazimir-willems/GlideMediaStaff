@@ -57,4 +57,9 @@ public class BayItem implements Serializable {
     public String getZoneID() {
         return zoneID;
     }
+
+    @Override
+    public String toString() {
+        return bay;
+    }
 }

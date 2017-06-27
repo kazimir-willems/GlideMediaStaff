@@ -17,6 +17,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import delivery.com.R;
 import delivery.com.adapter.AdminWarehouseAdapter;
+import delivery.com.db.BayDB;
+import delivery.com.db.StockDB;
 import delivery.com.db.WarehouseDB;
 import delivery.com.db.ZoneDB;
 import delivery.com.model.WarehouseItem;
@@ -87,7 +89,11 @@ public class ZoneFragment extends Fragment {
 
     public void deleteZoneItem(String warehouseID, ZoneItem zoneItem) {
         ZoneDB zoneDB = new ZoneDB(getActivity());
+        BayDB bayDB = new BayDB(getActivity());
+        StockDB stockDB = new StockDB(getActivity());
 
+        stockDB.removeDatasByZoneID(zoneItem.getWarehouseID(), zoneItem.getZoneID());
+        bayDB.removeBayByZone(zoneItem);
         zoneDB.removeZone(warehouseID, zoneItem);
 
         refreshZoneList();

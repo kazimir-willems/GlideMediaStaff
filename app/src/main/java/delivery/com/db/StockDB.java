@@ -40,7 +40,8 @@ public class StockDB extends DBHelper {
         long ret = -1;
         try {
             ContentValues value = new ContentValues();
-            value.put(DBConsts.FIELD_STOCK_ID, bean.getStockId());
+            value.put(DBConsts.FIELD_STOCK_ID, bean.getStockID());
+            value.put(DBConsts.FIELD_TITLE_ID, bean.getTitleID());
             value.put(DBConsts.FIELD_WAREHOUSE_ID, bean.getWarehouseID());
             value.put(DBConsts.FIELD_ZONE_ID, bean.getZoneID());
             value.put(DBConsts.FIELD_BAY_ID, bean.getBayID());
@@ -81,7 +82,7 @@ public class StockDB extends DBHelper {
             String szWhere = DBConsts.FIELD_WAREHOUSE_ID + " = '" + item.getWarehouseID() + "' AND " +
                     DBConsts.FIELD_ZONE_ID + " = '" + item.getZoneID() + "' AND " +
                     DBConsts.FIELD_BAY_ID + " = '" + item.getBayID() + "' AND " +
-                    DBConsts.FIELD_STOCK_ID + " = '" + item.getStockId() + "'";
+                    DBConsts.FIELD_STOCK_ID + " = '" + item.getStockID() + "'";
             ContentValues value = new ContentValues();
 
             value.put(DBConsts.FIELD_NEW_PALLET, item.getNewPallet());
@@ -96,7 +97,7 @@ public class StockDB extends DBHelper {
 
             synchronized (DB_LOCK) {
                 SQLiteDatabase db = getReadableDatabase();
-                db.update(DBConsts.TABLE_NAME_STOCK, value, szWhere, null);
+                int res = db.update(DBConsts.TABLE_NAME_STOCK, value, szWhere, null);
                 db.close();
             }
         } catch (IllegalStateException ex) {
@@ -137,6 +138,7 @@ public class StockDB extends DBHelper {
 
             final int COL_ID	                = c.getColumnIndexOrThrow(DBConsts.FIELD_ID),
                     COL_STOCK_ID 	            = c.getColumnIndexOrThrow(DBConsts.FIELD_STOCK_ID),
+                    COL_TITLE_ID                = c.getColumnIndexOrThrow(DBConsts.FIELD_TITLE_ID),
                     COL_WAREHOUSE_ID         	= c.getColumnIndexOrThrow(DBConsts.FIELD_WAREHOUSE_ID),
                     COL_ZONE_ID   		        = c.getColumnIndexOrThrow(DBConsts.FIELD_ZONE_ID),
                     COL_BAY_ID                  = c.getColumnIndexOrThrow(DBConsts.FIELD_BAY_ID),
@@ -156,35 +158,38 @@ public class StockDB extends DBHelper {
                     COL_NEW_ISSUE  		        = c.getColumnIndexOrThrow(DBConsts.FIELD_NEW_ISSUE),
                     COL_NEW_WAREHOUSE     	 	= c.getColumnIndexOrThrow(DBConsts.FIELD_NEW_WAREHOUSE),
                     COL_NEW_ZONE    	 	    = c.getColumnIndexOrThrow(DBConsts.FIELD_NEW_ZONE),
-                    COL_NEW_BAY     		        = c.getColumnIndexOrThrow(DBConsts.FIELD_NEW_BAY),
+                    COL_NEW_BAY     		    = c.getColumnIndexOrThrow(DBConsts.FIELD_NEW_BAY),
                     COL_DATETIME_STAMP  		= c.getColumnIndexOrThrow(DBConsts.FIELD_DATE_TIMESTAMP),
-                    COL_STAFF_ID     	 	    = c.getColumnIndexOrThrow(DBConsts.FIELD_STAFF_ID);
+                    COL_STAFF_ID     	 	    = c.getColumnIndexOrThrow(DBConsts.FIELD_STAFF_ID),
+                    COL_COMPLETED               = c.getColumnIndexOrThrow(DBConsts.FIELD_COMPLETED);
 
             while (c.moveToNext()) {
                 StockItem bean = new StockItem();
-                bean.setDespatchID(c.getString(COL_STOCK_ID));
-                bean.setOutletID(c.getString(COL_WAREHOUSE_ID));
-                bean.setStockId(c.getString(COL_ZONE_ID));
-                bean.setStock(c.getString(COL_BAY_ID));
-                bean.setTier(c.getString(COL_TITLE));
-                bean.setSlot(c.getString(COL_STATUS));
-                bean.setQty(c.getInt(COL_CUSTOMER));
+                bean.setStockID(c.getString(COL_STOCK_ID));
+                bean.setTitleID(c.getString(COL_TITLE_ID));
+                bean.setWarehouseID(c.getString(COL_WAREHOUSE_ID));
+                bean.setZoneID(c.getString(COL_ZONE_ID));
+                bean.setBayID(c.getString(COL_BAY_ID));
+                bean.setTitle(c.getString(COL_TITLE));
                 bean.setStatus(c.getString(COL_STATUS));
-                bean.setTitleID(c.getString(COL_LASTSTOCKTAKE_QTY));
-                bean.setSize(c.getString(COL_LASTSTOCKTAKE_DATE));
-                bean.setSlotOrder(c.getInt(COL_QTY_ESTIMATE));
-                bean.setRemove(c.getString(COL_QTY_BOX));
-                bean.setRemoveID(c.getString(COL_LAST_PALLET));
-                bean.setQty(c.getInt(COL_LAST_LOOSE));
-                bean.setStatus(c.getString(COL_NEW_PALLET));
-                bean.setTitleID(c.getString(COL_NEW_BOX));
-                bean.setSize(c.getString(COL_NEW_LOOSE));
-                bean.setSlotOrder(c.getInt(COL_NEW_ISSUE));
-                bean.setRemove(c.getString(COL_NEW_WAREHOUSE));
-                bean.setRemoveID(c.getString(COL_NEW_ZONE));
-                bean.setSlotOrder(c.getInt(COL_NEW_BAY));
-                bean.setRemove(c.getString(COL_DATETIME_STAMP));
-                bean.setRemoveID(c.getString(COL_STAFF_ID));
+                bean.setCustomer(c.getString(COL_CUSTOMER));
+                bean.setLastStockTakeQty(c.getString(COL_LASTSTOCKTAKE_QTY));
+                bean.setLastStockTakeDate(c.getString(COL_LASTSTOCKTAKE_DATE));
+                bean.setQtyEstimate(c.getString(COL_QTY_ESTIMATE));
+                bean.setQtyBox(c.getString(COL_QTY_BOX));
+                bean.setLastPallet(c.getString(COL_LAST_PALLET));
+                bean.setLastBox(c.getString(COL_LAST_BOX));
+                bean.setLastLoose(c.getString(COL_LAST_LOOSE));
+                bean.setNewPallet(c.getString(COL_NEW_PALLET));
+                bean.setNewBox(c.getString(COL_NEW_BOX));
+                bean.setNewLoose(c.getString(COL_NEW_LOOSE));
+                bean.setNewIssue(c.getString(COL_NEW_ISSUE));
+                bean.setNewWarehouse(c.getString(COL_NEW_WAREHOUSE));
+                bean.setNewZone(c.getString(COL_NEW_ZONE));
+                bean.setNewBay(c.getString(COL_NEW_BAY));
+                bean.setDateTimeStamp(c.getString(COL_DATETIME_STAMP));
+                bean.setStaffID(c.getString(COL_STAFF_ID));
+                bean.setCompleted(c.getInt(COL_COMPLETED));
                 ret.add(bean);
             }
 

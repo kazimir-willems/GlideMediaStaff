@@ -20,20 +20,26 @@
         <activity
             android:name=".ui.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".ui.OutletActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".ui.StockActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".ui.ReasonActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.StaffActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".ui.ZoneActivity"></activity>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".ui.ZoneActivity"
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>
