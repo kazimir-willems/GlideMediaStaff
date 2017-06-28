@@ -1,7 +1,8 @@
 package delivery.com.adapter;
 
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -24,18 +27,15 @@ import delivery.com.R;
 import delivery.com.consts.StateConsts;
 import delivery.com.db.BayDB;
 import delivery.com.db.IssueDB;
-import delivery.com.db.StockDB;
 import delivery.com.db.WarehouseDB;
 import delivery.com.db.ZoneDB;
 import delivery.com.fragment.StockFragment;
 import delivery.com.model.BayItem;
 import delivery.com.model.IssueItem;
-import delivery.com.model.OutletItem;
 import delivery.com.model.StockItem;
 import delivery.com.model.WarehouseItem;
 import delivery.com.model.ZoneItem;
-import delivery.com.ui.OutletActivity;
-import delivery.com.ui.StockActivity;
+import delivery.com.util.DateUtil;
 
 public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
 
@@ -47,9 +47,25 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
     private ArrayList<BayItem> bayItems = new ArrayList<>();
     private ArrayList<IssueItem> issueList = new ArrayList<>();
 
-    private WarehouseItem newWarehouse = new WarehouseItem();
-    private ZoneItem newZone = new ZoneItem();
-    private BayItem newBay = new BayItem();
+    private String lastWarehouseID = "";
+    private String lastZoneID = "";
+    private String lastBayID = "";
+
+    private BayItem newBayItem = new BayItem();
+
+    private boolean bLoad = true;
+
+    private int lastWarehousePos = 0;
+    private int lastZonePos = 0;
+    private int lastBayPos = 0;
+
+    private int selectedWarehousePos = 0;
+    private int selectedZonePos = 0;
+    private int selectedBayPos = 0;
+
+    private int newTotal = 0;
+
+    private IssueItem currentIssueItem = new IssueItem();
 
     public StockAdapter(StockFragment parent) {
         this.parent = parent;
@@ -82,6 +98,28 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
 
         final StockItem item = items.get(position);
 
+        if(item.getNewWarehouse().isEmpty()) {
+            lastWarehouseID = item.getWarehouseID();
+        } else {
+            lastWarehouseID = item.getNewWarehouse();
+        }
+
+        if(item.getNewZone().isEmpty()) {
+            lastZoneID = item.getZoneID();
+        } else {
+            lastZoneID = item.getNewZone();
+        }
+
+        if(item.getNewBay().isEmpty()) {
+            lastBayID = item.getBayID();
+        } else {
+            lastBayID = item.getNewBay();
+        }
+
+        newBayItem.setWarehouseID(lastWarehouseID);
+        newBayItem.setZoneID(lastZoneID);
+        newBayItem.setBay(lastBayID);
+
         holder.tvTitleID.setText(item.getTitleID());
         holder.tvStockTitle.setText(item.getTitle());
         holder.tvCustomer.setText(item.getCustomer());
@@ -106,6 +144,12 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
         holder.tvLastStocktakeDate.setText(item.getLastStockTakeDate());
         holder.tvBoxQty.setText(item.getQtyBox());
 
+        holder.edtPallets.setText(item.getNewPallet());
+        holder.edtBoxes.setText(item.getNewBox());
+        holder.edtLoose.setText(item.getNewLoose());
+
+        holder.tvNewTotal.setText(item.getNewTotal());
+
         holder.warehouseSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -114,6 +158,8 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
                 zoneItems = zoneDB.fetchZoneByWarehouseID(warehouseItem.getId());
                 ArrayAdapter zoneAdapter = new ArrayAdapter(StockAdapter.this.parent.getActivity(), android.R.layout.simple_spinner_dropdown_item, zoneItems);
                 holder.zoneSpin.setAdapter(zoneAdapter);
+
+                selectedWarehousePos = position;
             }
 
             @Override
@@ -130,6 +176,8 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
                 bayItems = bayDB.fetchBayByZone(zoneItem);
                 ArrayAdapter bayAdapter = new ArrayAdapter(StockAdapter.this.parent.getActivity(), android.R.layout.simple_spinner_dropdown_item, bayItems);
                 holder.baySpin.setAdapter(bayAdapter);
+
+                selectedZonePos = position;
             }
 
             @Override
@@ -138,10 +186,113 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
             }
         });
 
+        final boolean[] bLoad = {true};
+
+        holder.baySpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedBayPos = position;
+                newBayItem = bayItems.get(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        holder.issueSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                IssueItem item = issueList.get(position);
+                if(item.getIssueID() == "6") {
+                    holder.edtPallets.setText("0");
+                    holder.edtBoxes.setText("0");
+                    holder.edtLoose.setText("0");
+                    newTotal = 0;
+                    holder.tvNewTotal.setText("0");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        holder.edtBoxes.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(holder.edtLoose.getText().toString().length() > 0) {
+                    newTotal = Integer.valueOf(holder.edtBoxes.getText().toString()) * Integer.valueOf(item.getQtyBox()) + Integer.valueOf(holder.edtLoose.getText().toString());
+                    String strNewTotal = NumberFormat.getNumberInstance(Locale.US).format(newTotal);
+
+                    holder.tvNewTotal.setText(strNewTotal);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        holder.edtLoose.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(holder.edtBoxes.getText().toString().length() > 0) {
+                    newTotal = Integer.valueOf(holder.edtBoxes.getText().toString()) * Integer.valueOf(item.getQtyBox()) + Integer.valueOf(holder.edtLoose.getText().toString());
+                    String strNewTotal = NumberFormat.getNumberInstance(Locale.US).format(newTotal);
+
+                    holder.tvNewTotal.setText(strNewTotal);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         holder.btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (lastWarehousePos == selectedWarehousePos && lastZonePos == selectedZonePos && lastBayPos == selectedBayPos) {
+                    if(currentIssueItem.getIssueID().equals("5")) {
+                        Toast.makeText(parent.getActivity(), R.string.select_new_location, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                } else {
+                    if (!(newBayItem.getWarehouseID().equals(lastWarehouseID) && newBayItem.getZoneID().equals(lastZoneID) && newBayItem.getBayID().equals(lastBayID))) {
+                        item.setNewWarehouse(newBayItem.getWarehouseID());
+                        item.setNewZone(newBayItem.getZoneID());
+                        item.setNewBay(newBayItem.getBayID());
+                    } else {
+                        if(currentIssueItem.getIssueID().equals("5")) {
+                            Toast.makeText(parent.getActivity(), R.string.select_new_location, Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                }
+
+                item.setNewPallet(holder.edtPallets.getText().toString());
+                item.setNewBox(holder.edtBoxes.getText().toString());
+                item.setNewLoose(holder.edtLoose.getText().toString());
+                item.setNewIssue(currentIssueItem.getIssueID());
+                item.setNewTotal(String.valueOf(newTotal));
                 item.setCompleted(StateConsts.STATE_COMPLETED);
+                item.setDateTimeStamp(DateUtil.getCurDateTime());
 
                 holder.ivStatus.setBackground(parent.getResources().getDrawable(R.drawable.ic_complete));
                 parent.updateStockItem(item);
@@ -158,6 +309,13 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
             }
         });
 
+        ArrayAdapter warehouseAdapter = new ArrayAdapter(parent.getActivity(), android.R.layout.simple_spinner_dropdown_item, warehouseItems);
+        ArrayAdapter zoneAdapter = new ArrayAdapter(parent.getActivity(), android.R.layout.simple_spinner_dropdown_item, zoneItems);
+        ArrayAdapter bayAdapter = new ArrayAdapter(parent.getActivity(), android.R.layout.simple_spinner_dropdown_item, bayItems);
+
+        holder.warehouseSpin.setAdapter(warehouseAdapter);
+        holder.zoneSpin.setAdapter(zoneAdapter);
+        holder.baySpin.setAdapter(bayAdapter);
     }
 
     public StockItem getItem(int pos) {
@@ -232,14 +390,11 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
             this.view = view;
             ButterKnife.bind(this, view);
 
-            ArrayAdapter warehouseAdapter = new ArrayAdapter(parent.getActivity(), android.R.layout.simple_spinner_dropdown_item, warehouseItems);
-            ArrayAdapter zoneAdapter = new ArrayAdapter(parent.getActivity(), android.R.layout.simple_spinner_dropdown_item, zoneItems);
-            ArrayAdapter bayAdapter = new ArrayAdapter(parent.getActivity(), android.R.layout.simple_spinner_dropdown_item, bayItems);
+            bLoad = true;
             ArrayAdapter issueAdapter = new ArrayAdapter(parent.getActivity(), android.R.layout.simple_spinner_dropdown_item, issueList);
             issueSpin.setAdapter(issueAdapter);
-            warehouseSpin.setAdapter(warehouseAdapter);
-            zoneSpin.setAdapter(zoneAdapter);
-            baySpin.setAdapter(bayAdapter);
+
+
         }
     }
 }

@@ -18,6 +18,7 @@ import delivery.com.db.BayDB;
 import delivery.com.fragment.StockFragment;
 import delivery.com.model.BayItem;
 import delivery.com.model.StaffItem;
+import delivery.com.model.StockItem;
 import delivery.com.model.WarehouseItem;
 import delivery.com.model.ZoneItem;
 
@@ -67,6 +68,17 @@ public class StockActivity extends AppCompatActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         viewPager.setOffscreenPageLimit(bayList.size());
+
+        if(getIntent().getBooleanExtra("from_search", false)) {
+            StockItem stockItem = (StockItem) getIntent().getSerializableExtra("search_stock");
+
+            for(int i = 0; i < bayList.size(); i++) {
+                if(bayList.get(i).getBayID().equals(stockItem.getBayID())) {
+                    viewPager.setCurrentItem(i);
+                    fragments[i].setListPos(stockItem);
+                }
+            }
+        }
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
@@ -97,5 +109,9 @@ public class StockActivity extends AppCompatActivity
 
     public StaffItem getStaffItem() {
         return staffItem;
+    }
+
+    public ZoneItem getZoneItem() {
+        return zoneItem;
     }
 }

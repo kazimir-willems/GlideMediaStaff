@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import delivery.com.consts.StateConsts;
 import delivery.com.db.BayDB;
 import delivery.com.db.IssueDB;
 import delivery.com.db.StaffDB;
@@ -120,6 +121,7 @@ public class StockInfoStoreTask extends AsyncTask<DownloadStockInfoResponseVo, V
                 bayItem.setBay(jsonBayItem.getString("bay"));
                 bayItem.setZoneID(zoneID);
                 bayItem.setWarehouseID(warehouseID);
+                bayItem.setCompleted(StateConsts.STATE_DEFAULT);
 
                 JSONArray jsonStockArray = new JSONArray(jsonBayItem.getString("stock"));
                 for(int j = 0; j < jsonStockArray.length(); j++) {

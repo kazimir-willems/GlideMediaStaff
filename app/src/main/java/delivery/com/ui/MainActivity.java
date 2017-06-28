@@ -3,6 +3,7 @@ package delivery.com.ui;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -84,7 +85,12 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_despatch:
                 fragment = ZoneFragment.newInstance();
-                getSupportActionBar().setTitle(R.string.title_despatch_fragment);
+                getSupportActionBar().setTitle(R.string.app_name);
+                break;
+            case R.id.nav_staff:
+                Intent intent = new Intent(MainActivity.this, StaffActivity.class);
+                startActivity(intent);
+                finish();
                 break;
             default:
                 break;

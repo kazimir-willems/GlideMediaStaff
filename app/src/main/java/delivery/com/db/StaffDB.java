@@ -8,8 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 
 import delivery.com.consts.DBConsts;
-import delivery.com.consts.StateConsts;
-import delivery.com.model.DespatchItem;
 import delivery.com.model.StaffItem;
 import delivery.com.util.DBHelper;
 

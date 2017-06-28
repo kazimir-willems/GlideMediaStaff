@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 
 import delivery.com.consts.DBConsts;
+import delivery.com.consts.StateConsts;
 import delivery.com.model.BayItem;
 import delivery.com.model.ZoneItem;
 import delivery.com.util.DBHelper;
@@ -34,6 +35,42 @@ public class BayDB extends DBHelper {
         }
 
         return ret;
+    }
+
+    public int getAllCount(ZoneItem zoneItem) {
+        int count = 0;
+        try {
+            String szWhere = DBConsts.FIELD_WAREHOUSE_ID + " = '" + zoneItem.getWarehouseID() + "' AND " + DBConsts.FIELD_ZONE_ID + " = '" + zoneItem.getZoneID() + "'";
+
+            synchronized (DB_LOCK) {
+                SQLiteDatabase db = getReadableDatabase();
+                Cursor cursor = db.query(DBConsts.TABLE_NAME_BAY, null, szWhere, null, null, null, null);
+                count = cursor.getCount();
+                db.close();
+            }
+        } catch (IllegalStateException ex) {
+            ex.printStackTrace();
+        }
+
+        return count;
+    }
+
+    public int getCompletedCount(ZoneItem zoneItem) {
+        int count = 0;
+        try {
+            String szWhere = DBConsts.FIELD_WAREHOUSE_ID + " = '" + zoneItem.getWarehouseID() + "' AND " + DBConsts.FIELD_ZONE_ID + " = '" + zoneItem.getZoneID() + "' AND " + DBConsts.FIELD_COMPLETED + " = " + StateConsts.STATE_COMPLETED;
+
+            synchronized (DB_LOCK) {
+                SQLiteDatabase db = getReadableDatabase();
+                Cursor cursor = db.query(DBConsts.TABLE_NAME_BAY, null, szWhere, null, null, null, null);
+                count = cursor.getCount();
+                db.close();
+            }
+        } catch (IllegalStateException ex) {
+            ex.printStackTrace();
+        }
+
+        return count;
     }
 
     public boolean isExist(BayItem item) {
@@ -96,6 +133,25 @@ public class BayDB extends DBHelper {
             synchronized (DB_LOCK) {
                 SQLiteDatabase db = getReadableDatabase();
                 db.delete(DBConsts.TABLE_NAME_BAY, szWhere, null);
+                db.close();
+            }
+        } catch (IllegalStateException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void updateBay(BayItem item) {
+        try {
+            String szWhere = DBConsts.FIELD_WAREHOUSE_ID + " = '" + item.getWarehouseID() + "' AND " +
+                    DBConsts.FIELD_ZONE_ID + " = '" + item.getZoneID() + "' AND " +
+                    DBConsts.FIELD_BAY_ID + " = '" + item.getBayID() + "'";
+            ContentValues value = new ContentValues();
+
+            value.put(DBConsts.FIELD_COMPLETED, item.getCompleted());
+
+            synchronized (DB_LOCK) {
+                SQLiteDatabase db = getReadableDatabase();
+                int res = db.update(DBConsts.TABLE_NAME_BAY, value, szWhere, null);
                 db.close();
             }
         } catch (IllegalStateException ex) {
