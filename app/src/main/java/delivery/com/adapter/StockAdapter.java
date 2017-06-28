@@ -186,8 +186,6 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
             }
         });
 
-        final boolean[] bLoad = {true};
-
         holder.baySpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -316,6 +314,8 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
         holder.warehouseSpin.setAdapter(warehouseAdapter);
         holder.zoneSpin.setAdapter(zoneAdapter);
         holder.baySpin.setAdapter(bayAdapter);
+
+        holder.issueSpin.setSelection(Integer.valueOf(item.getNewIssue()) - 1);
     }
 
     public StockItem getItem(int pos) {
@@ -393,8 +393,6 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
             bLoad = true;
             ArrayAdapter issueAdapter = new ArrayAdapter(parent.getActivity(), android.R.layout.simple_spinner_dropdown_item, issueList);
             issueSpin.setAdapter(issueAdapter);
-
-
         }
     }
 }
