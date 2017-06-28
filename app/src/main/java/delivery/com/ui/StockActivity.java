@@ -60,9 +60,11 @@ public class StockActivity extends AppCompatActivity
 
         bayList = bayDB.fetchBayByZone(zoneItem);
 
+        StockItem searchItem = (StockItem) getIntent().getSerializableExtra("search_stock");
+
         fragments = new StockFragment[bayList.size()];
         for(int i = 0; i < bayList.size(); i++) {
-            fragments[i] = new StockFragment().newInstance(bayList.get(i));
+            fragments[i] = new StockFragment().newInstance(bayList.get(i), searchItem);
         }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -70,12 +72,9 @@ public class StockActivity extends AppCompatActivity
         viewPager.setOffscreenPageLimit(bayList.size());
 
         if(getIntent().getBooleanExtra("from_search", false)) {
-            StockItem stockItem = (StockItem) getIntent().getSerializableExtra("search_stock");
-
             for(int i = 0; i < bayList.size(); i++) {
-                if(bayList.get(i).getBayID().equals(stockItem.getBayID())) {
+                if(bayList.get(i).getBayID().equals(searchItem.getBayID())) {
                     viewPager.setCurrentItem(i);
-                    fragments[i].setListPos(stockItem);
                 }
             }
         }

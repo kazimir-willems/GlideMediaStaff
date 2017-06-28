@@ -39,6 +39,7 @@ public class StockFragment extends Fragment {
     TextView tvBay;
 
     private BayItem bayItem;
+    private StockItem searchItem;
 
     private LinearLayoutManager mLinearLayoutManager;
     private StockAdapter adapter;
@@ -64,12 +65,15 @@ public class StockFragment extends Fragment {
 
         getStocks();
 
+        setListPos(searchItem);
+
         return v;
     }
 
-    public static StockFragment newInstance(BayItem item) {
+    public static StockFragment newInstance(BayItem item, StockItem searchItem) {
         StockFragment f = new StockFragment();
         f.bayItem = item;
+        f.searchItem = searchItem;
         return f;
     }
 
@@ -100,6 +104,15 @@ public class StockFragment extends Fragment {
                 ZoneDB zoneDB = new ZoneDB(getActivity());
                 zoneDB.updateZone(zoneItem);
             }
+        } else {
+            bayItem.setCompleted(StateConsts.STATE_DEFAULT);
+            BayDB bayDB = new BayDB(getActivity());
+            bayDB.updateBay(bayItem);
+
+            ZoneItem zoneItem = ((StockActivity) getActivity()).getZoneItem();
+            zoneItem.setCompleted(StateConsts.STATE_DEFAULT);
+            ZoneDB zoneDB = new ZoneDB(getActivity());
+            zoneDB.updateZone(zoneItem);
         }
 
         //Check whether bay is completed also zone is completed
@@ -107,9 +120,11 @@ public class StockFragment extends Fragment {
     }
 
     public void setListPos(StockItem stockItem) {
-        for(int i = 0; i < items.size(); i++) {
-            if (items.get(i).getStockID().equals(stockItem.getStockID()))
-                stockList.scrollToPosition(i);
+        if(stockItem != null) {
+            for (int i = 0; i < items.size(); i++) {
+                if (items.get(i).getTitleID().equals(stockItem.getTitleID()))
+                    stockList.scrollToPosition(i);
+            }
         }
     }
 }

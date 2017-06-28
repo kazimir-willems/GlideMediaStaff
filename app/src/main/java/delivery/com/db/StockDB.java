@@ -71,43 +71,64 @@ public class StockDB extends DBHelper {
         return ret;
     }
 
-    public long addStock(StockItem bean) {
-        long ret = -1;
+    public boolean isExist(StockItem item) {
+        boolean bExist = false;
         try {
-            ContentValues value = new ContentValues();
-            value.put(DBConsts.FIELD_STOCK_ID, bean.getStockID());
-            value.put(DBConsts.FIELD_TITLE_ID, bean.getTitleID());
-            value.put(DBConsts.FIELD_WAREHOUSE_ID, bean.getWarehouseID());
-            value.put(DBConsts.FIELD_ZONE_ID, bean.getZoneID());
-            value.put(DBConsts.FIELD_BAY_ID, bean.getBayID());
-            value.put(DBConsts.FIELD_TITLE, bean.getTitle());
-            value.put(DBConsts.FIELD_STATUS, bean.getStatus());
-            value.put(DBConsts.FIELD_CUSTOMER, bean.getCustomer());
-            value.put(DBConsts.FIELD_LAST_STOCKTAKE_QTY, bean.getLastStockTakeQty());
-            value.put(DBConsts.FIELD_LAST_STOCKTAKE_DATE, bean.getLastStockTakeDate());
-            value.put(DBConsts.FIELD_QTY_ESTIMATE, bean.getQtyEstimate());
-            value.put(DBConsts.FIELD_QTY_BOX, bean.getQtyBox());
-            value.put(DBConsts.FIELD_LAST_PALLET, bean.getLastPallet());
-            value.put(DBConsts.FIELD_LAST_BOX, bean.getLastBox());
-            value.put(DBConsts.FIELD_LAST_LOOSE, bean.getLastLoose());
-            value.put(DBConsts.FIELD_NEW_PALLET, bean.getNewPallet());
-            value.put(DBConsts.FIELD_NEW_BOX, bean.getNewBox());
-            value.put(DBConsts.FIELD_NEW_LOOSE, bean.getNewLoose());
-            value.put(DBConsts.FIELD_NEW_TOTAL, bean.getNewTotal());
-            value.put(DBConsts.FIELD_NEW_ISSUE, bean.getNewIssue());
-            value.put(DBConsts.FIELD_NEW_WAREHOUSE, bean.getNewWarehouse());
-            value.put(DBConsts.FIELD_NEW_ZONE, bean.getNewZone());
-            value.put(DBConsts.FIELD_NEW_BAY, bean.getNewBay());
-            value.put(DBConsts.FIELD_DATE_TIMESTAMP, bean.getDateTimeStamp());
-            value.put(DBConsts.FIELD_STAFF_ID, bean.getStaffID());
-            value.put(DBConsts.FIELD_COMPLETED, bean.getCompleted());
+            String szWhere = DBConsts.FIELD_STOCK_ID + " = '" + item.getStockID() + "'";
+
             synchronized (DB_LOCK) {
-                SQLiteDatabase db = getWritableDatabase();
-                ret = db.insert(DBConsts.TABLE_NAME_STOCK, null, value);
+                SQLiteDatabase db = getReadableDatabase();
+                Cursor cursor = db.query(DBConsts.TABLE_NAME_STOCK, null, szWhere, null, null, null, null);
+                if(cursor.moveToNext())
+                    bExist = true;
                 db.close();
             }
         } catch (IllegalStateException ex) {
             ex.printStackTrace();
+        }
+
+        return bExist;
+    }
+
+    public long addStock(StockItem bean) {
+        long ret = -1;
+        if(!isExist(bean)) {
+            try {
+                ContentValues value = new ContentValues();
+                value.put(DBConsts.FIELD_STOCK_ID, bean.getStockID());
+                value.put(DBConsts.FIELD_TITLE_ID, bean.getTitleID());
+                value.put(DBConsts.FIELD_WAREHOUSE_ID, bean.getWarehouseID());
+                value.put(DBConsts.FIELD_ZONE_ID, bean.getZoneID());
+                value.put(DBConsts.FIELD_BAY_ID, bean.getBayID());
+                value.put(DBConsts.FIELD_TITLE, bean.getTitle());
+                value.put(DBConsts.FIELD_STATUS, bean.getStatus());
+                value.put(DBConsts.FIELD_CUSTOMER, bean.getCustomer());
+                value.put(DBConsts.FIELD_LAST_STOCKTAKE_QTY, bean.getLastStockTakeQty());
+                value.put(DBConsts.FIELD_LAST_STOCKTAKE_DATE, bean.getLastStockTakeDate());
+                value.put(DBConsts.FIELD_QTY_ESTIMATE, bean.getQtyEstimate());
+                value.put(DBConsts.FIELD_QTY_BOX, bean.getQtyBox());
+                value.put(DBConsts.FIELD_LAST_PALLET, bean.getLastPallet());
+                value.put(DBConsts.FIELD_LAST_BOX, bean.getLastBox());
+                value.put(DBConsts.FIELD_LAST_LOOSE, bean.getLastLoose());
+                value.put(DBConsts.FIELD_NEW_PALLET, bean.getNewPallet());
+                value.put(DBConsts.FIELD_NEW_BOX, bean.getNewBox());
+                value.put(DBConsts.FIELD_NEW_LOOSE, bean.getNewLoose());
+                value.put(DBConsts.FIELD_NEW_TOTAL, bean.getNewTotal());
+                value.put(DBConsts.FIELD_NEW_ISSUE, bean.getNewIssue());
+                value.put(DBConsts.FIELD_NEW_WAREHOUSE, bean.getNewWarehouse());
+                value.put(DBConsts.FIELD_NEW_ZONE, bean.getNewZone());
+                value.put(DBConsts.FIELD_NEW_BAY, bean.getNewBay());
+                value.put(DBConsts.FIELD_DATE_TIMESTAMP, bean.getDateTimeStamp());
+                value.put(DBConsts.FIELD_STAFF_ID, bean.getStaffID());
+                value.put(DBConsts.FIELD_COMPLETED, bean.getCompleted());
+                synchronized (DB_LOCK) {
+                    SQLiteDatabase db = getWritableDatabase();
+                    ret = db.insert(DBConsts.TABLE_NAME_STOCK, null, value);
+                    db.close();
+                }
+            } catch (IllegalStateException ex) {
+                ex.printStackTrace();
+            }
         }
 
         return ret;
@@ -167,6 +188,7 @@ public class StockDB extends DBHelper {
             value.put(DBConsts.FIELD_NEW_ISSUE, item.getNewIssue());
             value.put(DBConsts.FIELD_DATE_TIMESTAMP, item.getDateTimeStamp());
             value.put(DBConsts.FIELD_COMPLETED, item.getCompleted());
+            value.put(DBConsts.FIELD_STAFF_ID, item.getStaffID());
 
             synchronized (DB_LOCK) {
                 SQLiteDatabase db = getReadableDatabase();

@@ -146,9 +146,10 @@ public class StockInfoStoreTask extends AsyncTask<DownloadStockInfoResponseVo, V
                     stockItem.setLastPallet(jsonStockItem.getString("lastPallet"));
                     stockItem.setLastBox(jsonStockItem.getString("lastBox"));
                     stockItem.setLastLoose(jsonStockItem.getString("lastLoose"));
-                    stockItem.setNewPallet(jsonStockItem.getString("newPallet"));
-                    stockItem.setNewBox(jsonStockItem.getString("newBox"));
-                    stockItem.setNewLoose(jsonStockItem.getString("newLoose"));
+                    stockItem.setNewPallet("0");
+                    stockItem.setNewBox("0");
+                    stockItem.setNewLoose("0");
+                    stockItem.setNewTotal("0");
                     stockItem.setNewIssue(jsonStockItem.getString("newIssue"));
                     stockItem.setNewWarehouse(jsonStockItem.getString("newWarehouse"));
                     stockItem.setNewZone(jsonStockItem.getString("newZone"));

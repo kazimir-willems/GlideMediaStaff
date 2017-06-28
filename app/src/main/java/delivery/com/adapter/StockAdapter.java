@@ -36,6 +36,7 @@ import delivery.com.model.StockItem;
 import delivery.com.model.WarehouseItem;
 import delivery.com.model.ZoneItem;
 import delivery.com.util.DateUtil;
+import delivery.com.util.StringUtil;
 
 public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
 
@@ -148,7 +149,10 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
         holder.edtBoxes.setText(item.getNewBox());
         holder.edtLoose.setText(item.getNewLoose());
 
-        holder.tvNewTotal.setText(item.getNewTotal());
+        if(!StringUtil.isEmpty(item.getNewTotal())) {
+            String strNewTotal = NumberFormat.getNumberInstance(Locale.US).format(Integer.valueOf(item.getNewTotal()));
+            holder.tvNewTotal.setText(strNewTotal);
+        }
 
         holder.warehouseSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -202,8 +206,8 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
         holder.issueSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                IssueItem item = issueList.get(position);
-                if(item.getIssueID() == "6") {
+                currentIssueItem = issueList.get(position);
+                if(currentIssueItem.getIssueID().equals("6")) {
                     holder.edtPallets.setText("0");
                     holder.edtBoxes.setText("0");
                     holder.edtLoose.setText("0");
@@ -226,7 +230,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(holder.edtLoose.getText().toString().length() > 0) {
+                if(holder.edtLoose.getText().toString().length() > 0 && holder.edtBoxes.getText().toString().length() > 0) {
                     newTotal = Integer.valueOf(holder.edtBoxes.getText().toString()) * Integer.valueOf(item.getQtyBox()) + Integer.valueOf(holder.edtLoose.getText().toString());
                     String strNewTotal = NumberFormat.getNumberInstance(Locale.US).format(newTotal);
 
@@ -248,7 +252,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(holder.edtBoxes.getText().toString().length() > 0) {
+                if(holder.edtLoose.getText().toString().length() > 0 && holder.edtBoxes.getText().toString().length() > 0) {
                     newTotal = Integer.valueOf(holder.edtBoxes.getText().toString()) * Integer.valueOf(item.getQtyBox()) + Integer.valueOf(holder.edtLoose.getText().toString());
                     String strNewTotal = NumberFormat.getNumberInstance(Locale.US).format(newTotal);
 
