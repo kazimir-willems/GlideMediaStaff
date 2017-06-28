@@ -163,6 +163,7 @@
                     android:id="@+id/edt_pallets"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="number"
                     android:hint="@string/hint_pallets"/>
             </LinearLayout>
 
@@ -175,6 +176,7 @@
                     android:id="@+id/edt_boxes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="number"
                     android:hint="@string/hint_boxes"/>
             </LinearLayout>
 
@@ -187,6 +189,7 @@
                     android:id="@+id/edt_loose"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="number"
                     android:hint="@string/hint_loose"/>
             </LinearLayout>
 

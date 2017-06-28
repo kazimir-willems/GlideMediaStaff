@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 
 import delivery.com.consts.DBConsts;
+import delivery.com.consts.StateConsts;
 import delivery.com.model.BayItem;
 import delivery.com.model.StockItem;
 import delivery.com.util.DBHelper;
@@ -23,6 +24,40 @@ public class StockDB extends DBHelper {
         ArrayList<StockItem> ret = null;
         try {
             String szWhere = DBConsts.FIELD_WAREHOUSE_ID + " = '" + item.getWarehouseID() + "' AND " + DBConsts.FIELD_ZONE_ID + " = '" + item.getZoneID() + "' AND " + DBConsts.FIELD_BAY_ID + " = '" + item.getBayID() + "'";
+            synchronized (DB_LOCK) {
+                SQLiteDatabase db = getReadableDatabase();
+                Cursor cursor = db.query(DBConsts.TABLE_NAME_STOCK, null, szWhere, null, null, null, null);
+                ret = createStockBeans(cursor);
+                db.close();
+            }
+        } catch (IllegalStateException ex) {
+            ex.printStackTrace();
+        }
+
+        return ret;
+    }
+
+    public ArrayList<StockItem> fetchCompletedStocks() {
+        ArrayList<StockItem> ret = null;
+        try {
+            String szWhere = DBConsts.FIELD_COMPLETED + " = " + StateConsts.STATE_COMPLETED;
+            synchronized (DB_LOCK) {
+                SQLiteDatabase db = getReadableDatabase();
+                Cursor cursor = db.query(DBConsts.TABLE_NAME_STOCK, null, szWhere, null, null, null, null);
+                ret = createStockBeans(cursor);
+                db.close();
+            }
+        } catch (IllegalStateException ex) {
+            ex.printStackTrace();
+        }
+
+        return ret;
+    }
+
+    public ArrayList<StockItem> fetchStockByTitleID(String titleID) {
+        ArrayList<StockItem> ret = null;
+        try {
+            String szWhere = DBConsts.FIELD_TITLE_ID + " = '" + titleID + "'";
             synchronized (DB_LOCK) {
                 SQLiteDatabase db = getReadableDatabase();
                 Cursor cursor = db.query(DBConsts.TABLE_NAME_STOCK, null, szWhere, null, null, null, null);
@@ -58,6 +93,7 @@ public class StockDB extends DBHelper {
             value.put(DBConsts.FIELD_NEW_PALLET, bean.getNewPallet());
             value.put(DBConsts.FIELD_NEW_BOX, bean.getNewBox());
             value.put(DBConsts.FIELD_NEW_LOOSE, bean.getNewLoose());
+            value.put(DBConsts.FIELD_NEW_TOTAL, bean.getNewTotal());
             value.put(DBConsts.FIELD_NEW_ISSUE, bean.getNewIssue());
             value.put(DBConsts.FIELD_NEW_WAREHOUSE, bean.getNewWarehouse());
             value.put(DBConsts.FIELD_NEW_ZONE, bean.getNewZone());
@@ -77,6 +113,42 @@ public class StockDB extends DBHelper {
         return ret;
     }
 
+    public int getAllCount(BayItem bayItem) {
+        int count = 0;
+        try {
+            String szWhere = DBConsts.FIELD_WAREHOUSE_ID + " = '" + bayItem.getWarehouseID() + "' AND " + DBConsts.FIELD_ZONE_ID + " = '" + bayItem.getZoneID() + "' AND " + DBConsts.FIELD_BAY_ID + " = '" + bayItem.getBayID() + "'";
+
+            synchronized (DB_LOCK) {
+                SQLiteDatabase db = getReadableDatabase();
+                Cursor cursor = db.query(DBConsts.TABLE_NAME_STOCK, null, szWhere, null, null, null, null);
+                count = cursor.getCount();
+                db.close();
+            }
+        } catch (IllegalStateException ex) {
+            ex.printStackTrace();
+        }
+
+        return count;
+    }
+
+    public int getCompletedCount(BayItem bayItem) {
+        int count = 0;
+        try {
+            String szWhere = DBConsts.FIELD_WAREHOUSE_ID + " = '" + bayItem.getWarehouseID() + "' AND " + DBConsts.FIELD_ZONE_ID + " = '" + bayItem.getZoneID() + "' AND " + DBConsts.FIELD_BAY_ID + " = '" + bayItem.getBayID() + "' AND " + DBConsts.FIELD_COMPLETED + " = " + StateConsts.STATE_COMPLETED;
+
+            synchronized (DB_LOCK) {
+                SQLiteDatabase db = getReadableDatabase();
+                Cursor cursor = db.query(DBConsts.TABLE_NAME_STOCK, null, szWhere, null, null, null, null);
+                count = cursor.getCount();
+                db.close();
+            }
+        } catch (IllegalStateException ex) {
+            ex.printStackTrace();
+        }
+
+        return count;
+    }
+
     public void updateStock(StockItem item) {
         try {
             String szWhere = DBConsts.FIELD_WAREHOUSE_ID + " = '" + item.getWarehouseID() + "' AND " +
@@ -88,6 +160,7 @@ public class StockDB extends DBHelper {
             value.put(DBConsts.FIELD_NEW_PALLET, item.getNewPallet());
             value.put(DBConsts.FIELD_NEW_BOX, item.getNewBox());
             value.put(DBConsts.FIELD_NEW_LOOSE, item.getNewLoose());
+            value.put(DBConsts.FIELD_NEW_TOTAL, item.getNewTotal());
             value.put(DBConsts.FIELD_NEW_WAREHOUSE, item.getNewWarehouse());
             value.put(DBConsts.FIELD_NEW_ZONE, item.getNewZone());
             value.put(DBConsts.FIELD_NEW_BAY, item.getNewBay());
@@ -155,6 +228,7 @@ public class StockDB extends DBHelper {
                     COL_NEW_PALLET   	 	    = c.getColumnIndexOrThrow(DBConsts.FIELD_NEW_PALLET),
                     COL_NEW_BOX    	 	        = c.getColumnIndexOrThrow(DBConsts.FIELD_NEW_BOX),
                     COL_NEW_LOOSE     		    = c.getColumnIndexOrThrow(DBConsts.FIELD_NEW_LOOSE),
+                    COL_NEW_TOTAL               = c.getColumnIndexOrThrow(DBConsts.FIELD_NEW_TOTAL),
                     COL_NEW_ISSUE  		        = c.getColumnIndexOrThrow(DBConsts.FIELD_NEW_ISSUE),
                     COL_NEW_WAREHOUSE     	 	= c.getColumnIndexOrThrow(DBConsts.FIELD_NEW_WAREHOUSE),
                     COL_NEW_ZONE    	 	    = c.getColumnIndexOrThrow(DBConsts.FIELD_NEW_ZONE),
@@ -183,6 +257,7 @@ public class StockDB extends DBHelper {
                 bean.setNewPallet(c.getString(COL_NEW_PALLET));
                 bean.setNewBox(c.getString(COL_NEW_BOX));
                 bean.setNewLoose(c.getString(COL_NEW_LOOSE));
+                bean.setNewTotal(c.getString(COL_NEW_TOTAL));
                 bean.setNewIssue(c.getString(COL_NEW_ISSUE));
                 bean.setNewWarehouse(c.getString(COL_NEW_WAREHOUSE));
                 bean.setNewZone(c.getString(COL_NEW_ZONE));

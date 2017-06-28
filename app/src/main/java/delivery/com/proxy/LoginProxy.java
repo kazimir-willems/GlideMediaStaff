@@ -7,8 +7,6 @@ import java.io.IOException;
 import delivery.com.util.URLManager;
 import delivery.com.vo.LoginRequestVo;
 import delivery.com.vo.LoginResponseVo;
-import delivery.com.vo.UploadDespatchRequestVo;
-import delivery.com.vo.UploadDespatchResponseVo;
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
 

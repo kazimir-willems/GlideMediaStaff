@@ -1,9 +1,9 @@
 package delivery.com.event;
 
-public class MakeUploadDataEvent {
+public class MakeModifiedDataEvent {
     private String data;
 
-    public MakeUploadDataEvent(String result) {
+    public MakeModifiedDataEvent(String result) {
         this.data = result;
     }
 

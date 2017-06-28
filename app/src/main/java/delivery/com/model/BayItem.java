@@ -2,6 +2,8 @@ package delivery.com.model;
 
 import java.io.Serializable;
 
+import delivery.com.consts.StateConsts;
+
 /**
  * Created by Kazimir on 6/20/2017.
  */
@@ -11,12 +13,14 @@ public class BayItem implements Serializable {
     private String zoneID;
     private String bayID;
     private String bay;
+    private int completed;
 
     public BayItem() {
         this.warehouseID = "";
         this.zoneID = "";
         this.bayID = "";
         this.bay = "";
+        this.completed = StateConsts.STATE_DEFAULT;
     }
 
     public BayItem(String warehouseID, String zoneID, String bayID, String bay) {
@@ -56,6 +60,14 @@ public class BayItem implements Serializable {
 
     public String getZoneID() {
         return zoneID;
+    }
+
+    public void setCompleted(int value) {
+        this.completed = value;
+    }
+
+    public int getCompleted() {
+        return completed;
     }
 
     @Override

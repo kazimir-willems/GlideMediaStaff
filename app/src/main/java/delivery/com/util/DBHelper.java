@@ -43,7 +43,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     DBConsts.FIELD_BAY_ID + " TEXT," +
                     DBConsts.FIELD_BAY + " TEXT," +
                     DBConsts.FIELD_WAREHOUSE_ID + " TEXT," +
-                    DBConsts.FIELD_ZONE_ID + " TEXT);";
+                    DBConsts.FIELD_ZONE_ID + " TEXT," +
+                    DBConsts.FIELD_COMPLETED + " INTEGER);";
 
     protected static String STOCK_TABLE_CREATE_SQL =
             "CREATE TABLE IF NOT EXISTS " + DBConsts.TABLE_NAME_STOCK + " (" +
@@ -66,6 +67,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     DBConsts.FIELD_NEW_PALLET + " TEXT," +
                     DBConsts.FIELD_NEW_BOX + " TEXT," +
                     DBConsts.FIELD_NEW_LOOSE + " TEXT," +
+                    DBConsts.FIELD_NEW_TOTAL + " TEXT," +
                     DBConsts.FIELD_NEW_ISSUE + " TEXT," +
                     DBConsts.FIELD_NEW_WAREHOUSE + " INTEGER," +
                     DBConsts.FIELD_NEW_ZONE + " TEXT," +

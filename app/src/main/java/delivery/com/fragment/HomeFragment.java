@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,18 +20,21 @@ import delivery.com.R;
 import delivery.com.application.DeliveryApplication;
 import delivery.com.consts.StateConsts;
 import delivery.com.event.DownloadStockInfoEvent;
+import delivery.com.event.MakeModifiedDataEvent;
 import delivery.com.event.MakeUploadDataEvent;
 import delivery.com.event.RemoveAllDataEvent;
 import delivery.com.event.StockInfoStoreEvent;
-import delivery.com.event.UploadDespatchEvent;
+import delivery.com.event.UploadStockInfoEvent;
 import delivery.com.task.DownloadStockInfoTask;
+import delivery.com.task.MakeModifiedDataTask;
 import delivery.com.task.MakeUploadDataTask;
 import delivery.com.task.RemoveAllDataTask;
 import delivery.com.task.StockInfoStoreTask;
-import delivery.com.task.UploadDespatchTask;
+import delivery.com.task.UploadModifiedStockTask;
+import delivery.com.task.UploadStockInfoTask;
 import delivery.com.ui.MainActivity;
 import delivery.com.vo.DownloadStockInfoResponseVo;
-import delivery.com.vo.UploadDespatchResponseVo;
+import delivery.com.vo.UploadStockInfoResponseVo;
 
 public class HomeFragment extends Fragment {
 
@@ -83,16 +85,15 @@ public class HomeFragment extends Fragment {
         DownloadStockInfoResponseVo responseVo = event.getResponse();
         if (responseVo != null) {
             parseStockInfo(responseVo);
-            Log.v("Staff List", responseVo.staff);
         } else {
             networkError();
         }
     }
 
     @Subscribe
-    public void onUploadDespatchEvent(UploadDespatchEvent event) {
+    public void onUploadDespatchEvent(UploadStockInfoEvent event) {
         hideProgressDialog();
-        UploadDespatchResponseVo responseVo = event.getResponse();
+        UploadStockInfoResponseVo responseVo = event.getResponse();
         if (responseVo != null) {
             uploadSuccess();
         } else {
@@ -131,7 +132,18 @@ public class HomeFragment extends Fragment {
         if(result == null || result.isEmpty()) {
             noCompletedDespatch();
         } else {
-            startUploadDespatch(result);
+            startUploadStockInfo(result);
+        }
+    }
+
+    @Subscribe
+    public void onMakeModifiedDataEvent(MakeModifiedDataEvent event) {
+        hideProgressDialog();
+        String result = event.getResponse();
+        if(result == null || result.isEmpty()) {
+            noCompletedDespatch();
+        } else {
+            startUploadStockInfo(result);
         }
     }
 
@@ -153,6 +165,19 @@ public class HomeFragment extends Fragment {
             progressDialog.show();
 
             MakeUploadDataTask task = new MakeUploadDataTask(getActivity());
+            task.execute();
+        } else {
+            showPermissionDenied();
+        }
+    }
+
+    @OnClick(R.id.btn_upload_modified_stock)
+    void onClickBtnUploadModifiedStock() {
+        if(DeliveryApplication.nAccess == StateConsts.USER_ADMIN) {
+            progressDialog.setMessage(getResources().getString(R.string.uploading));
+            progressDialog.show();
+
+            MakeModifiedDataTask task = new MakeModifiedDataTask(getActivity());
             task.execute();
         } else {
             showPermissionDenied();
@@ -190,11 +215,19 @@ public class HomeFragment extends Fragment {
         task.execute();
     }
 
-    private void startUploadDespatch(String data) {
+    private void startUploadStockInfo(String data) {
         progressDialog.setMessage(getResources().getString(R.string.uploading));
         progressDialog.show();
 
-        UploadDespatchTask task = new UploadDespatchTask();
+        UploadStockInfoTask task = new UploadStockInfoTask();
+        task.execute(data);
+    }
+
+    private void startModifiedStockInfo(String data) {
+        progressDialog.setMessage(getResources().getString(R.string.uploading));
+        progressDialog.show();
+
+        UploadModifiedStockTask task = new UploadModifiedStockTask();
         task.execute(data);
     }
 

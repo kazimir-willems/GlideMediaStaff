@@ -6,13 +6,16 @@
     <string name="upload_stock">UPLOAD STOCK\nINFORMATION</string>
     <string name="no_despatch">No despatches downloaded</string>
     <string name="remove_dispatch">REMOVE ALL DATA</string>
+    <string name="upload_modified_stock">UPLOAD MODIFIED\nSTOCK ONLY</string>
     <string name="home">Home</string>
     <string name="despatch">Despatch</string>
+    <string name="warehouses">Warehouse</string>
+    <string name="staff">Staff</string>
     <string name="downloading">Downloading Stock Information...</string>
     <string name="uploading">Uploading Stock Information...</string>
     <string name="removing">Removing Stock Information...</string>
-    <string name="upload_success">Despatches Successfully Uploaded.</string>
-    <string name="remove_success">Despatches Successfully Removed.</string>
+    <string name="upload_success">Successfully Uploaded.</string>
+    <string name="remove_success">Successfully Removed.</string>
     <string name="remove_failed">Remove Failed.</string>
     <string name="view_crate">VIEW CRATE</string>
     <string name="cannot_deliver">CANNOT DELIVER</string>
@@ -24,7 +27,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="ok">Ok</string>
-    <string name="no_completed_despatch">No Completed Despatch</string>
+    <string name="no_completed_despatch">No Completed Zone</string>
     <string name="outlet_complete_format" formatted="false">Outlet completed %d out of %d</string>
     <string name="tier_space_format">SPACE LEFT: %s units</string>
     <string name="login_failed">Login Failed.</string>
@@ -32,6 +35,8 @@
     <string name="download_accomplished">Download Accomplished.</string>
     <string name="staff_select">STAFF SELECT</string>
     <string name="search_title_id">SEARCH TITLE ID</string>
+    <string name="select_new_location">Please select new location.</string>
+    <string name="no_stock_exists">No stock exists</string>
 
     <string name="clone_despatch">DESPATCH:</string>
     <string name="clone_run">RUN:</string>

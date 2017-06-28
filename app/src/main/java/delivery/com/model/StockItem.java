@@ -26,6 +26,7 @@ public class StockItem implements Serializable {
     private String newPallet;
     private String newBox;
     private String newLoose;
+    private String newTotal;
     private String newIssue;
     private String newWarehouse;
     private String newZone;
@@ -180,6 +181,14 @@ public class StockItem implements Serializable {
 
     public String getNewLoose() {
         return newLoose;
+    }
+
+    public void setNewTotal(String value) {
+        this.newTotal = value;
+    }
+
+    public String getNewTotal() {
+        return newTotal;
     }
 
     public void setNewIssue(String value) {

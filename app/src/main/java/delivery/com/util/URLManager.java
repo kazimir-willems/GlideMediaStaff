@@ -9,9 +9,14 @@ public class URLManager {
         return "http://glideadmin.co.uk/json/stocktake-download.php";
     }
 
-    public static String getUploadDespatchURL() {
+    public static String getUploadStockInfoURL() {
 //        return "http://glideadmin.co.uk/json/deliverySend.php";
-        return "http://glideadmin.co.uk/json/deliveryRetrieve.php";
+        return "http://glideadmin.co.uk/json/stocktake-upload.php";
+    }
+
+    public static String getUploadModifiedStockURL() {
+//        return "http://glideadmin.co.uk/json/deliverySend.php";
+        return "http://glideadmin.co.uk/json/stocktake-upload.php";
     }
 
     public static String getLoginURL() {

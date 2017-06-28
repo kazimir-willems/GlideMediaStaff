@@ -11,7 +11,12 @@
 
         <item
             android:id="@+id/nav_despatch"
-            android:title="@string/despatch"
+            android:title="@string/warehouses"
+            android:actionLayout="@layout/drawer_menu_item"/>
+
+        <item
+            android:id="@+id/nav_staff"
+            android:title="@string/staff"
             android:actionLayout="@layout/drawer_menu_item"/>
 
     </group>

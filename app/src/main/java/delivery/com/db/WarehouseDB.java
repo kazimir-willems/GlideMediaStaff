@@ -35,6 +35,23 @@ public class WarehouseDB extends DBHelper {
         return ret;
     }
 
+    public ArrayList<WarehouseItem> fetchWarehouseByID(String warehouseID) {
+        ArrayList<WarehouseItem> ret = new ArrayList<>();
+        try {
+            String szWhere = DBConsts.FIELD_WAREHOUSE_ID + " = '" + warehouseID + "'";
+            synchronized (DB_LOCK) {
+                SQLiteDatabase db = getReadableDatabase();
+                Cursor cursor = db.query(DBConsts.TABLE_NAME_WAREHOUSE, null, szWhere, null, null, null, null);
+                ret = createWarehouseBeans(cursor);
+                db.close();
+            }
+        } catch (IllegalStateException ex) {
+            ex.printStackTrace();
+        }
+
+        return ret;
+    }
+
     public boolean isExist(WarehouseItem item) {
         boolean bExist = false;
         try {

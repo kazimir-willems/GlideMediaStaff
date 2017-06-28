@@ -5,10 +5,10 @@ import android.os.AsyncTask;
 
 import org.greenrobot.eventbus.EventBus;
 
-import delivery.com.db.DespatchDB;
-import delivery.com.db.OutletDB;
+import delivery.com.db.BayDB;
 import delivery.com.db.StockDB;
-import delivery.com.db.TierDB;
+import delivery.com.db.WarehouseDB;
+import delivery.com.db.ZoneDB;
 import delivery.com.event.RemoveAllDataEvent;
 
 public class RemoveAllDataTask extends AsyncTask<String, Void, Boolean> {
@@ -29,13 +29,12 @@ public class RemoveAllDataTask extends AsyncTask<String, Void, Boolean> {
         try {
             StockDB stockDB = new StockDB(context);
             stockDB.removeAllDatas();
-            TierDB tierDB = new TierDB(context);
-            tierDB.removeAllDatas();
-            OutletDB outletDB = new OutletDB(context);
-            outletDB.removeAllDatas();
-            DespatchDB despatchDB = new DespatchDB(context);
-            despatchDB.removeAllDatas();
-
+            BayDB bayDB = new BayDB(context);
+            bayDB.removeAllDatas();
+            ZoneDB zoneDB = new ZoneDB(context);
+            zoneDB.removeAllDatas();
+            WarehouseDB warehouseDB = new WarehouseDB(context);
+            warehouseDB.removeAllDatas();
             return true;
         } catch (Exception e) {
             return false;

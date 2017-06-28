@@ -70,6 +70,7 @@ public class DBConsts {
     public static final String FIELD_NEW_PALLET = "new_pallet";
     public static final String FIELD_NEW_BOX = "new_box";
     public static final String FIELD_NEW_LOOSE = "new_loose";
+    public static final String FIELD_NEW_TOTAL = "new_total";
     public static final String FIELD_NEW_ISSUE = "new_issue";
     public static final String FIELD_NEW_WAREHOUSE = "new_warehouse";
     public static final String FIELD_NEW_ZONE = "new_zone";

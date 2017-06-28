@@ -2,36 +2,18 @@ package delivery.com.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import delivery.com.R;
-import delivery.com.adapter.OutletAdapter;
 import delivery.com.adapter.StaffAdapter;
-import delivery.com.consts.StateConsts;
-import delivery.com.db.OutletDB;
 import delivery.com.db.StaffDB;
-import delivery.com.db.StockDB;
-import delivery.com.db.TierDB;
-import delivery.com.fragment.StockFragment;
-import delivery.com.model.OutletItem;
 import delivery.com.model.StaffItem;
-import delivery.com.model.StockItem;
-import delivery.com.model.TierItem;
-import delivery.com.util.DateUtil;
 
 public class StaffActivity extends AppCompatActivity
 {

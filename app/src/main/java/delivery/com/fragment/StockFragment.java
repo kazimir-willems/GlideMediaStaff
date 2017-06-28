@@ -16,10 +16,14 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import delivery.com.R;
 import delivery.com.adapter.StockAdapter;
+import delivery.com.consts.StateConsts;
+import delivery.com.db.BayDB;
 import delivery.com.db.StockDB;
+import delivery.com.db.ZoneDB;
 import delivery.com.model.BayItem;
 import delivery.com.model.StaffItem;
 import delivery.com.model.StockItem;
+import delivery.com.model.ZoneItem;
 import delivery.com.ui.DividerItemDecoration;
 import delivery.com.ui.StockActivity;
 
@@ -38,6 +42,8 @@ public class StockFragment extends Fragment {
 
     private LinearLayoutManager mLinearLayoutManager;
     private StockAdapter adapter;
+
+    ArrayList<StockItem> items = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,7 +75,7 @@ public class StockFragment extends Fragment {
 
     private void getStocks() {
         StockDB db = new StockDB(getActivity());
-        ArrayList<StockItem> items = db.fetchStocksByBay(bayItem);
+        items = db.fetchStocksByBay(bayItem);
 
         adapter.addItems(items);
         adapter.notifyDataSetChanged();
@@ -79,9 +85,31 @@ public class StockFragment extends Fragment {
         StaffItem staffItem = ((StockActivity) getActivity()).getStaffItem();
         item.setStaffID(staffItem.getStaffID());
 
-        Toast.makeText(getActivity(), staffItem.getStaffName(), Toast.LENGTH_SHORT).show();
-
         StockDB stockDB = new StockDB(getActivity());
         stockDB.updateStock(item);
+
+        if(stockDB.getAllCount(bayItem) == stockDB.getCompletedCount(bayItem)) {
+            bayItem.setCompleted(StateConsts.STATE_COMPLETED);
+            BayDB bayDB = new BayDB(getActivity());
+            bayDB.updateBay(bayItem);
+
+            ZoneItem zoneItem = ((StockActivity) getActivity()).getZoneItem();
+            if(bayDB.getAllCount(zoneItem) == bayDB.getCompletedCount(zoneItem)) {
+                zoneItem.setCompleted(StateConsts.STATE_COMPLETED);
+
+                ZoneDB zoneDB = new ZoneDB(getActivity());
+                zoneDB.updateZone(zoneItem);
+            }
+        }
+
+        //Check whether bay is completed also zone is completed
+
+    }
+
+    public void setListPos(StockItem stockItem) {
+        for(int i = 0; i < items.size(); i++) {
+            if (items.get(i).getStockID().equals(stockItem.getStockID()))
+                stockList.scrollToPosition(i);
+        }
     }
 }

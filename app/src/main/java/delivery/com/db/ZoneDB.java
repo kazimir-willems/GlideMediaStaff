@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 
 import delivery.com.consts.DBConsts;
+import delivery.com.consts.StateConsts;
+import delivery.com.model.BayItem;
 import delivery.com.model.WarehouseItem;
 import delivery.com.model.ZoneItem;
 import delivery.com.util.DBHelper;
@@ -23,6 +25,40 @@ public class ZoneDB extends DBHelper {
         ArrayList<ZoneItem> ret = null;
         try {
             String szWhere = DBConsts.FIELD_WAREHOUSE_ID + " = '" + warehouseID + "'";
+            synchronized (DB_LOCK) {
+                SQLiteDatabase db = getReadableDatabase();
+                Cursor cursor = db.query(DBConsts.TABLE_NAME_ZONE, null, szWhere, null, null, null, null);
+                ret = createZoneBeans(cursor);
+                db.close();
+            }
+        } catch (IllegalStateException ex) {
+            ex.printStackTrace();
+        }
+
+        return ret;
+    }
+
+    public ArrayList<ZoneItem> fetchZoneByZoneID(String zoneID) {
+        ArrayList<ZoneItem> ret = null;
+        try {
+            String szWhere = DBConsts.FIELD_ZONE_ID + " = '" + zoneID + "'";
+            synchronized (DB_LOCK) {
+                SQLiteDatabase db = getReadableDatabase();
+                Cursor cursor = db.query(DBConsts.TABLE_NAME_ZONE, null, szWhere, null, null, null, null);
+                ret = createZoneBeans(cursor);
+                db.close();
+            }
+        } catch (IllegalStateException ex) {
+            ex.printStackTrace();
+        }
+
+        return ret;
+    }
+
+    public ArrayList<ZoneItem> fetchCompletedZone() {
+        ArrayList<ZoneItem> ret = null;
+        try {
+            String szWhere = DBConsts.FIELD_COMPLETED + " = " + StateConsts.STATE_COMPLETED;
             synchronized (DB_LOCK) {
                 SQLiteDatabase db = getReadableDatabase();
                 Cursor cursor = db.query(DBConsts.TABLE_NAME_ZONE, null, szWhere, null, null, null, null);
@@ -91,6 +127,24 @@ public class ZoneDB extends DBHelper {
         }
 
         return ret;
+    }
+
+    public void updateZone(ZoneItem item) {
+        try {
+            String szWhere = DBConsts.FIELD_WAREHOUSE_ID + " = '" + item.getWarehouseID() + "' AND " +
+                    DBConsts.FIELD_ZONE_ID + " = '" + item.getZoneID() + "'";
+            ContentValues value = new ContentValues();
+
+            value.put(DBConsts.FIELD_COMPLETED, item.getCompleted());
+
+            synchronized (DB_LOCK) {
+                SQLiteDatabase db = getReadableDatabase();
+                int res = db.update(DBConsts.TABLE_NAME_ZONE, value, szWhere, null);
+                db.close();
+            }
+        } catch (IllegalStateException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void removeAllDatas() {

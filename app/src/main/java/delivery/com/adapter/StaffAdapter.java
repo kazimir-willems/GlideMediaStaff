@@ -1,14 +1,11 @@
 package delivery.com.adapter;
 
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +13,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import delivery.com.R;
-import delivery.com.consts.StateConsts;
-import delivery.com.model.OutletItem;
 import delivery.com.model.StaffItem;
-import delivery.com.ui.OutletActivity;
-import delivery.com.ui.ReasonActivity;
 import delivery.com.ui.StaffActivity;
-import delivery.com.ui.StockActivity;
 
 public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHolder> {
 
