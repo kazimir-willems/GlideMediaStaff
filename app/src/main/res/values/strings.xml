@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Glide Media Delivery</string>
+    <string name="app_name">Glide Stock Take</string>
     <string name="download_dispatch">Download Despatch\nInformation</string>
     <string name="upload_dispatch">Upload Completed\nDespatch(s)</string>
     <string name="download_stock">DOWNLOAD STOCK\nINFORMATION</string>
