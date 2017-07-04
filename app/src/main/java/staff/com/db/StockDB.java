@@ -74,7 +74,7 @@ public class StockDB extends DBHelper {
     public boolean isExist(StockItem item) {
         boolean bExist = false;
         try {
-            String szWhere = DBConsts.FIELD_STOCK_ID + " = '" + item.getStockID() + "'";
+            String szWhere = DBConsts.FIELD_WAREHOUSE_ID + " = '" + item.getWarehouseID() + "' AND " + DBConsts.FIELD_ZONE_ID + " = '" + item.getZoneID() + "' AND " + DBConsts.FIELD_BAY_ID + " = '" + item.getBayID() + "' AND " + DBConsts.FIELD_STOCK_ID + " = '" + item.getStockID() + "'";
 
             synchronized (DB_LOCK) {
                 SQLiteDatabase db = getReadableDatabase();
