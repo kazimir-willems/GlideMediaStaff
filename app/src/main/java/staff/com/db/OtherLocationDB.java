@@ -41,7 +41,7 @@ public class OtherLocationDB extends DBHelper {
     public boolean isExist(OtherLocationItem item) {
         boolean bExist = false;
         try {
-            String szWhere = DBConsts.FIELD_STOCK_ID + " = '" + item.getStockID() + "'";
+            String szWhere = DBConsts.FIELD_STOCK_ID + " = '" + item.getWarehouseID() + "' AND " + DBConsts.FIELD_OTHER_ID + " = '" + item.getOtherID() + "'";
 
             synchronized (DB_LOCK) {
                 SQLiteDatabase db = getReadableDatabase();

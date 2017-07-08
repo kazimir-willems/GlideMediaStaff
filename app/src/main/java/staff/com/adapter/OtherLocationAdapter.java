@@ -53,12 +53,12 @@ public class OtherLocationAdapter extends RecyclerView.Adapter<OtherLocationAdap
         BayDB bayDB = new BayDB(parent.getParent().getActivity());
 
         final WarehouseItem warehouseItem = warehouseDB.fetchWarehouseByID(item.getWarehouseID()).get(0);
-        final ZoneItem zoneItem = zoneDB.fetchZoneByZoneID(item.getZoneID()).get(0);
+        final ZoneItem zoneItem = zoneDB.fetchZoneByWarehouseAndZoneID(item.getWarehouseID(), item.getZoneID()).get(0);
         BayItem bayItem = bayDB.fetchBayByBayID(item.getBayID()).get(0);
 
         StockDB stockDB = new StockDB(parent.getParent().getActivity());
 
-        final StockItem stockItem = stockDB.fetchStockByStockID(item.getStockID()).get(0);
+        final StockItem stockItem = stockDB.fetchStockByStockID(item.getOtherID()).get(0);
 
         holder.tvOtherLocation.setText(warehouseItem.getName() + " " + zoneItem.getZone() + " " + bayItem.getBay());
         holder.tvOtherLocation.setOnClickListener(new View.OnClickListener() {

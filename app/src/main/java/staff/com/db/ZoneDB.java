@@ -53,6 +53,23 @@ public class ZoneDB extends DBHelper {
         return ret;
     }
 
+    public ArrayList<ZoneItem> fetchZoneByWarehouseAndZoneID(String warehouseID, String zoneID) {
+        ArrayList<ZoneItem> ret = null;
+        try {
+            String szWhere = DBConsts.FIELD_WAREHOUSE_ID + " = '" + warehouseID + "' AND " + DBConsts.FIELD_ZONE_ID + " = '" + zoneID + "'";
+            synchronized (DB_LOCK) {
+                SQLiteDatabase db = getReadableDatabase();
+                Cursor cursor = db.query(DBConsts.TABLE_NAME_ZONE, null, szWhere, null, null, null, null);
+                ret = createZoneBeans(cursor);
+                db.close();
+            }
+        } catch (IllegalStateException ex) {
+            ex.printStackTrace();
+        }
+
+        return ret;
+    }
+
     public ArrayList<ZoneItem> fetchCompletedZone() {
         ArrayList<ZoneItem> ret = null;
         try {
