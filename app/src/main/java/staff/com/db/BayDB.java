@@ -37,6 +37,23 @@ public class BayDB extends DBHelper {
         return ret;
     }
 
+    public ArrayList<BayItem> fetchBayByBayID(String bayID) {
+        ArrayList<BayItem> ret = null;
+        try {
+            String szWhere = DBConsts.FIELD_BAY_ID + " = '" + bayID + "'";
+            synchronized (DB_LOCK) {
+                SQLiteDatabase db = getReadableDatabase();
+                Cursor cursor = db.query(DBConsts.TABLE_NAME_BAY, null, szWhere, null, null, null, null);
+                ret = createBayBeans(cursor);
+                db.close();
+            }
+        } catch (IllegalStateException ex) {
+            ex.printStackTrace();
+        }
+
+        return ret;
+    }
+
     public ArrayList<BayItem> fetchAllBays() {
         ArrayList<BayItem> ret = null;
         try {

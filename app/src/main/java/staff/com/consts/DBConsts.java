@@ -12,6 +12,7 @@ public class DBConsts {
     public static final String TABLE_NAME_ISSUE = "tbl_issue";
     public static final String TABLE_NAME_ZONE = "tbl_zone";
     public static final String TABLE_NAME_BAY = "tbl_bay";
+    public static final String TABLE_NAME_OTHER_LOCATION = "tbl_other";
 
     public static final String FIELD_ID = "id";
     public static final String FIELD_COMPLETED = "completed";
@@ -53,4 +54,6 @@ public class DBConsts {
     public static final String FIELD_NEW_ZONE = "new_zone";
     public static final String FIELD_NEW_BAY = "new_bay";
     public static final String FIELD_DATE_TIMESTAMP = "datetimestamp";
+
+    public static final String FIELD_OTHER_ID = "other_id";
 }

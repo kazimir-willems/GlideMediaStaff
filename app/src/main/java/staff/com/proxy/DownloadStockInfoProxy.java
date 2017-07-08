@@ -5,6 +5,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import staff.com.application.DeliveryApplication;
+import staff.com.consts.StateConsts;
 import staff.com.util.URLManager;
 import staff.com.vo.DownloadStockInfoResponseVo;
 import okhttp3.FormBody;
@@ -17,7 +19,12 @@ public class DownloadStockInfoProxy extends BaseProxy {
 
         RequestBody formBody = formBuilder.build();
 
-        String contentString = postPlain(URLManager.getDownloadStockInfoURL(), formBody);
+        String postURL = "";
+        if(DeliveryApplication.nAccess == StateConsts.USER_CHELTENHAM)
+            postURL = URLManager.getCheltenhamDownURL();
+        else if(DeliveryApplication.nAccess == StateConsts.USER_WESSEX)
+            postURL = URLManager.getWessexDownURL();
+        String contentString = postPlain(postURL, formBody);
 
         DownloadStockInfoResponseVo responseVo = new DownloadStockInfoResponseVo();
 

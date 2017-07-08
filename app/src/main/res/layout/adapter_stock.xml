@@ -201,33 +201,35 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/TextBranchItem"
-                android:text="@string/hint_est"/>
-
-            <TextView
                 android:id="@+id/tv_est_qty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/TextBranchItem"
                 android:layout_marginLeft="8dp"
+                android:visibility="gone"
                 android:text="62,255"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/TextBranchItem"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:text="@string/hint_last_stocktake"/>
 
             <TextView
-                android:id="@+id/tv_last_stocktake"
+                android:id="@+id/tv_last_stocktake_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/TextBranchItem"
                 android:layout_marginLeft="8dp"
                 android:text="2017-01-12"/>
+
+            <TextView
+                android:id="@+id/tv_last_stocktake_qty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextBranchItem"
+                android:layout_marginLeft="8dp"
+                android:text="81,100"/>
 
         </LinearLayout>
 
@@ -331,6 +333,27 @@
 
         </LinearLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/other_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextBranch"
+            android:text="@string/other_locations"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/other_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="2dp"/>
     </LinearLayout>
 
     <Button

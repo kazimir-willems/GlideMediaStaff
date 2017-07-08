@@ -20,14 +20,9 @@
         <activity
             android:name="staff.com.ui.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden"/>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name="staff.com.ui.StockActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity
-            android:name="staff.com.ui.StaffActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
         <activity

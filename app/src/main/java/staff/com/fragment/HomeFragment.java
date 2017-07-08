@@ -149,65 +149,49 @@ public class HomeFragment extends Fragment {
 
     @OnClick(R.id.btn_download_stock)
     void onClickBtnDownStocks() {
-        if(DeliveryApplication.nAccess == StateConsts.USER_ADMIN) {
-            progressDialog.setMessage(getResources().getString(R.string.downloading));
-            progressDialog.show();
-            startDownloadStockInfo();
-        } else {
-            showPermissionDenied();
-        }
+        progressDialog.setMessage(getResources().getString(R.string.downloading));
+        progressDialog.show();
+        startDownloadStockInfo();
     }
 
     @OnClick(R.id.btn_upload_stock)
     void onClickBtnUploadStock() {
-        if(DeliveryApplication.nAccess == StateConsts.USER_ADMIN) {
-            progressDialog.setMessage(getResources().getString(R.string.uploading));
-            progressDialog.show();
+        progressDialog.setMessage(getResources().getString(R.string.uploading));
+        progressDialog.show();
 
-            MakeUploadDataTask task = new MakeUploadDataTask(getActivity());
-            task.execute();
-        } else {
-            showPermissionDenied();
-        }
+        MakeUploadDataTask task = new MakeUploadDataTask(getActivity());
+        task.execute();
     }
 
     @OnClick(R.id.btn_upload_modified_stock)
     void onClickBtnUploadModifiedStock() {
-        if(DeliveryApplication.nAccess == StateConsts.USER_ADMIN) {
-            progressDialog.setMessage(getResources().getString(R.string.uploading));
-            progressDialog.show();
+        progressDialog.setMessage(getResources().getString(R.string.uploading));
+        progressDialog.show();
 
-            MakeModifiedDataTask task = new MakeModifiedDataTask(getActivity());
-            task.execute();
-        } else {
-            showPermissionDenied();
-        }
+        MakeModifiedDataTask task = new MakeModifiedDataTask(getActivity());
+        task.execute();
     }
 
     @OnClick(R.id.btn_remove_stock)
     void onClickBtnRemoveStock() {
-        if(DeliveryApplication.nAccess == StateConsts.USER_ADMIN) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle(getString(R.string.app_name));
-            builder.setMessage(getString(R.string.msg_ask_remove_datas));
-            builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    progressDialog.setMessage(getResources().getString(R.string.removing));
-                    progressDialog.show();
-                    RemoveAllDataTask task = new RemoveAllDataTask(getActivity());
-                    task.execute();
-                }
-            });
-            builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            }).create().show();
-        } else {
-            showPermissionDenied();
-        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(getString(R.string.app_name));
+        builder.setMessage(getString(R.string.msg_ask_remove_datas));
+        builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                progressDialog.setMessage(getResources().getString(R.string.removing));
+                progressDialog.show();
+                RemoveAllDataTask task = new RemoveAllDataTask(getActivity());
+                task.execute();
+            }
+        });
+        builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).create().show();
     }
 
     private void startDownloadStockInfo() {

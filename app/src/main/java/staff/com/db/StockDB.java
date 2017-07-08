@@ -71,6 +71,23 @@ public class StockDB extends DBHelper {
         return ret;
     }
 
+    public ArrayList<StockItem> fetchStockByStockID(String titleID) {
+        ArrayList<StockItem> ret = null;
+        try {
+            String szWhere = DBConsts.FIELD_STOCK_ID + " = '" + titleID + "'";
+            synchronized (DB_LOCK) {
+                SQLiteDatabase db = getReadableDatabase();
+                Cursor cursor = db.query(DBConsts.TABLE_NAME_STOCK, null, szWhere, null, null, null, null);
+                ret = createStockBeans(cursor);
+                db.close();
+            }
+        } catch (IllegalStateException ex) {
+            ex.printStackTrace();
+        }
+
+        return ret;
+    }
+
     public boolean isExist(StockItem item) {
         boolean bExist = false;
         try {

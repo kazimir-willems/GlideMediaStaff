@@ -1,9 +1,11 @@
 package staff.com.adapter;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -12,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,11 +30,13 @@ import staff.com.R;
 import staff.com.consts.StateConsts;
 import staff.com.db.BayDB;
 import staff.com.db.IssueDB;
+import staff.com.db.OtherLocationDB;
 import staff.com.db.WarehouseDB;
 import staff.com.db.ZoneDB;
 import staff.com.fragment.StockFragment;
 import staff.com.model.BayItem;
 import staff.com.model.IssueItem;
+import staff.com.model.OtherLocationItem;
 import staff.com.model.StockItem;
 import staff.com.model.WarehouseItem;
 import staff.com.model.ZoneItem;
@@ -68,6 +73,8 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
 
     private IssueItem currentIssueItem = new IssueItem();
 
+    private LinearLayoutManager mLinearLayoutManager;
+
     public StockAdapter(StockFragment parent) {
         this.parent = parent;
 
@@ -80,6 +87,10 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
         zoneItems = zoneDB.fetchZoneByWarehouseID(warehouseItems.get(0).getId());
         bayItems = bayDB.fetchBayByZone(zoneItems.get(0));
         issueList = issueDB.fetchAllIssue();
+    }
+
+    public StockFragment getParent() {
+        return parent;
     }
 
     @Override
@@ -98,6 +109,27 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
         }
 
         final StockItem item = items.get(position);
+
+        holder.otherList.setHasFixedSize(true);
+
+        mLinearLayoutManager = new LinearLayoutManager(parent.getActivity());
+        mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        holder.otherList.setLayoutManager(mLinearLayoutManager);
+
+        OtherLocationDB otherLocationDB = new OtherLocationDB(parent.getActivity());
+        ArrayList<OtherLocationItem> otherItems = otherLocationDB.fetchOtherLocation(item);
+
+        if(otherItems.size() > 0) {
+            OtherLocationAdapter otherAdapter = new OtherLocationAdapter(StockAdapter.this);
+            otherAdapter.addItems(otherItems);
+
+            holder.otherList.setAdapter(otherAdapter);
+            holder.otherLayout.setVisibility(View.VISIBLE);
+
+            otherAdapter.notifyDataSetChanged();
+        } else {
+            holder.otherLayout.setVisibility(View.GONE);
+        }
 
         if(item.getNewWarehouse().isEmpty()) {
             lastWarehouseID = item.getWarehouseID();
@@ -143,6 +175,14 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
         holder.tvLastLoose.setText(item.getLastLoose());
         holder.tvEstQty.setText(item.getQtyEstimate());
         holder.tvLastStocktakeDate.setText(item.getLastStockTakeDate());
+
+        if(!StringUtil.isEmpty(item.getLastStockTakeQty())) {
+            String strLastTakeQty = NumberFormat.getNumberInstance(Locale.US).format(Integer.valueOf(item.getLastStockTakeQty()));
+            holder.tvLastStockTakeQty.setText(strLastTakeQty);
+        } else {
+            holder.tvLastStockTakeQty.setText("");
+        }
+
         holder.tvBoxQty.setText(item.getQtyBox());
 
         holder.edtPallets.setText(item.getNewPallet());
@@ -288,6 +328,11 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
                     }
                 }
 
+                if(StringUtil.isEmpty(holder.edtPallets.getText().toString()) || StringUtil.isEmpty(holder.edtBoxes.getText().toString()) || StringUtil.isEmpty(holder.edtLoose.getText().toString())) {
+                    Toast.makeText(parent.getActivity(), R.string.input_qtys, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 item.setNewPallet(holder.edtPallets.getText().toString());
                 item.setNewBox(holder.edtBoxes.getText().toString());
                 item.setNewLoose(holder.edtLoose.getText().toString());
@@ -370,8 +415,10 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
         EditText edtLoose;
         @Bind(R.id.tv_est_qty)
         TextView tvEstQty;
-        @Bind(R.id.tv_last_stocktake)
+        @Bind(R.id.tv_last_stocktake_date)
         TextView tvLastStocktakeDate;
+        @Bind(R.id.tv_last_stocktake_qty)
+        TextView tvLastStockTakeQty;
         @Bind(R.id.tv_box_qty)
         TextView tvBoxQty;
         @Bind(R.id.tv_new_total)
@@ -388,6 +435,10 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
         Button btnUpdate;
         @Bind(R.id.iv_status)
         ImageView ivStatus;
+        @Bind(R.id.other_list)
+        RecyclerView otherList;
+        @Bind(R.id.other_layout)
+        LinearLayout otherLayout;
 
         public StockViewHolder(View view) {
             super(view);
@@ -397,6 +448,30 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
             bLoad = true;
             ArrayAdapter issueAdapter = new ArrayAdapter(parent.getActivity(), android.R.layout.simple_spinner_dropdown_item, issueList);
             issueSpin.setAdapter(issueAdapter);
+
+            edtPallets.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    edtPallets.setText("");
+                    return false;
+                }
+            });
+
+            edtBoxes.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    edtBoxes.setText("");
+                    return false;
+                }
+            });
+
+            edtLoose.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    edtLoose.setText("");
+                    return false;
+                }
+            });
         }
     }
 }

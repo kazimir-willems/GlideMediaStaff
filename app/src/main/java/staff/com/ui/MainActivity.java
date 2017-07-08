@@ -19,7 +19,10 @@ import staff.com.R;
 import staff.com.application.DeliveryApplication;
 import staff.com.consts.StateConsts;
 import staff.com.fragment.HomeFragment;
+import staff.com.fragment.DeleteZoneFragment;
+import staff.com.fragment.StaffFragment;
 import staff.com.fragment.ZoneFragment;
+import staff.com.model.StaffItem;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,6 +37,8 @@ public class MainActivity extends AppCompatActivity
     private ActionBarDrawerToggle toggle;
 
     public ProgressDialog dlgProg;
+
+    private StaffItem staffItem = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +59,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(MainActivity.this);
-        navigationView.getMenu().getItem(0).setChecked(true);
+        navigationView.getMenu().getItem(3).setChecked(true);
     }
 
     @Override
@@ -62,15 +67,9 @@ public class MainActivity extends AppCompatActivity
         super.onPostCreate(savedInstanceState);
 
         FragmentManager manager = getFragmentManager();
-        if(DeliveryApplication.nAccess == StateConsts.USER_ADMIN) {
-            manager.beginTransaction()
-                    .replace(R.id.main_frame, HomeFragment.newInstance())
-                    .commit();
-        } else {
-            manager.beginTransaction()
-                    .replace(R.id.main_frame, ZoneFragment.newInstance())
-                    .commit();
-        }
+        manager.beginTransaction()
+                .replace(R.id.main_frame, StaffFragment.newInstance())
+                .commit();
     }
 
     @Override
@@ -82,14 +81,22 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_home:
                 fragment = HomeFragment.newInstance();
                 getSupportActionBar().setTitle(R.string.app_name);
+                navigationView.getMenu().getItem(0).setChecked(true);
                 break;
-            case R.id.nav_despatch:
-                fragment = ZoneFragment.newInstance();
+            case R.id.nav_delete_zone:
+                fragment = DeleteZoneFragment.newInstance();
                 getSupportActionBar().setTitle(R.string.app_name);
+                navigationView.getMenu().getItem(1).setChecked(true);
                 break;
             case R.id.nav_staff:
-                Intent intent = new Intent(MainActivity.this, StaffActivity.class);
-                startActivity(intent);
+                fragment = StaffFragment.newInstance();
+                getSupportActionBar().setTitle(R.string.staff);
+                navigationView.getMenu().getItem(3).setChecked(true);
+                break;
+            case R.id.nav_start_stock_take:
+                fragment = ZoneFragment.newInstance();
+                getSupportActionBar().setTitle(R.string.start_stock_take);
+                navigationView.getMenu().getItem(2).setChecked(true);
                 break;
             default:
                 break;
@@ -110,13 +117,34 @@ public class MainActivity extends AppCompatActivity
 
     public void showZoneFragment() {
         Fragment fragment = null;
-        fragment = ZoneFragment.newInstance();
+        fragment = DeleteZoneFragment.newInstance();
 
         if (fragment != null) {
             getFragmentManager().beginTransaction()
                     .replace(R.id.main_frame, fragment)
                     .commit();
         }
+    }
+
+    public StaffItem getStaffItem() {
+        return staffItem;
+    }
+
+    public void setStaffItem(StaffItem item) {
+        this.staffItem = item;
+    }
+
+    public void moveToMain() {
+        Fragment fragment = HomeFragment.newInstance();
+        getSupportActionBar().setTitle(R.string.app_name);
+
+        if (fragment != null) {
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.main_frame, fragment)
+                    .commit();
+        }
+
+        navigationView.getMenu().getItem(0).setChecked(true);
     }
 
 }

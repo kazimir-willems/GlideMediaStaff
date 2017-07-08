@@ -43,7 +43,7 @@ public class ZoneActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        adapter = new WarehouseAdapter(ZoneActivity.this);
+//        adapter = new WarehouseAdapter(ZoneActivity.this);
         zoneList.setAdapter(adapter);
 
         staffItem = (StaffItem) getIntent().getSerializableExtra("staff");

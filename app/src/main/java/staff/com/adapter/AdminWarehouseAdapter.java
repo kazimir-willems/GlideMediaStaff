@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import staff.com.R;
-import staff.com.fragment.ZoneFragment;
+import staff.com.fragment.DeleteZoneFragment;
 import staff.com.model.WarehouseItem;
 import staff.com.model.ZoneItem;
 
@@ -23,12 +23,12 @@ import staff.com.model.ZoneItem;
  */
 
 public class AdminWarehouseAdapter extends BaseExpandableListAdapter {
-    private ZoneFragment ctx;
+    private DeleteZoneFragment ctx;
 
     private HashMap<String, ArrayList<ZoneItem>> zoneItems = new HashMap<>();
     private ArrayList<WarehouseItem> warehouseItems = new ArrayList<>();
 
-    public AdminWarehouseAdapter(ZoneFragment parent) {
+    public AdminWarehouseAdapter(DeleteZoneFragment parent) {
         this.ctx = parent;
     }
 

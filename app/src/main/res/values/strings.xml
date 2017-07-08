@@ -9,8 +9,9 @@
     <string name="upload_modified_stock">UPLOAD MODIFIED\nSTOCK ONLY</string>
     <string name="home">Home</string>
     <string name="despatch">Despatch</string>
-    <string name="warehouses">Warehouse</string>
-    <string name="staff">Staff</string>
+    <string name="delete_zones">Delete Zones</string>
+    <string name="start_stock_take">Start Stock Take</string>
+    <string name="staff">Change Staff</string>
     <string name="downloading">Downloading Stock Information...</string>
     <string name="uploading">Uploading Stock Information...</string>
     <string name="removing">Removing Stock Information...</string>
@@ -36,7 +37,10 @@
     <string name="staff_select">STAFF SELECT</string>
     <string name="search_title_id">SEARCH TITLE ID</string>
     <string name="select_new_location">Please select new location.</string>
+    <string name="input_qtys">Please fill the Pallets, Boxes and Loose.</string>
     <string name="no_stock_exists">No stock exists</string>
+    <string name="choose_staff">Please choose a Staff.</string>
+    <string name="other_locations">Other Locations</string>
 
     <string name="clone_despatch">DESPATCH:</string>
     <string name="clone_run">RUN:</string>

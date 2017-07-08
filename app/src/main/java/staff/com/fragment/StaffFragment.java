@@ -1,11 +1,12 @@
-package staff.com.ui;
+package staff.com.fragment;
 
-import android.content.Intent;
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
@@ -15,9 +16,10 @@ import staff.com.R;
 import staff.com.adapter.StaffAdapter;
 import staff.com.db.StaffDB;
 import staff.com.model.StaffItem;
+import staff.com.ui.MainActivity;
 
-public class StaffActivity extends AppCompatActivity
-{
+public class StaffFragment extends Fragment {
+
     private ArrayList<StaffItem> staffItems = new ArrayList<>();
 
     @Bind(R.id.staff_list)
@@ -26,40 +28,32 @@ public class StaffActivity extends AppCompatActivity
     private LinearLayoutManager mLinearLayoutManager;
     private StaffAdapter adapter;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_staff);
+    public static StaffFragment newInstance() {
+        StaffFragment fragment = new StaffFragment();
+        return fragment;
+    }
 
-        ButterKnife.bind(this);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_staff, container, false);
+        ButterKnife.bind(this, view);
+
         staffList.setHasFixedSize(true);
 
-        mLinearLayoutManager = new LinearLayoutManager(StaffActivity.this);
+        mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         staffList.setLayoutManager(mLinearLayoutManager);
 
-        adapter = new StaffAdapter(StaffActivity.this);
+        adapter = new StaffAdapter(StaffFragment.this);
         staffList.setAdapter(adapter);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        refreshStaff();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void startZoneActivity(StaffItem staffItem) {
-        Intent intent = new Intent(StaffActivity.this, ZoneActivity.class);
-        intent.putExtra("staff", staffItem);
-
-        startActivity(intent);
+        return view;
     }
 
     @Override
@@ -69,11 +63,18 @@ public class StaffActivity extends AppCompatActivity
         refreshStaff();
     }
 
+    public void startMainActivity(StaffItem staffItem) {
+        ((MainActivity) getActivity()).setStaffItem(staffItem);
+        ((MainActivity) getActivity()).moveToMain();
+    }
+
+
     private void refreshStaff() {
-        StaffDB staffDB = new StaffDB(StaffActivity.this);
+        StaffDB staffDB = new StaffDB(getActivity());
         staffItems = staffDB.fetchAllStaff();
         adapter.addItems(staffItems);
 
         adapter.notifyDataSetChanged();
     }
+
 }

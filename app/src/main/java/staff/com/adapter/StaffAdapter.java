@@ -13,15 +13,15 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import staff.com.R;
+import staff.com.fragment.StaffFragment;
 import staff.com.model.StaffItem;
-import staff.com.ui.StaffActivity;
 
 public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHolder> {
 
-    private StaffActivity parent;
+    private StaffFragment parent;
     private List<StaffItem> items = new ArrayList<>();
 
-    public StaffAdapter(StaffActivity parent) {
+    public StaffAdapter(StaffFragment parent) {
         this.parent = parent;
     }
 
@@ -40,7 +40,7 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
         holder.staffLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                parent.startZoneActivity(item);
+                parent.startMainActivity(item);
             }
         });
     }
