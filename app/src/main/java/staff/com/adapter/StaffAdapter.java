@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ import butterknife.ButterKnife;
 import staff.com.R;
 import staff.com.fragment.StaffFragment;
 import staff.com.model.StaffItem;
+import staff.com.ui.MainActivity;
 
 public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHolder> {
 
@@ -43,6 +45,12 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
                 parent.startMainActivity(item);
             }
         });
+
+        if(((MainActivity)parent.getActivity()).getStaffItem() != null) {
+            if (((MainActivity) parent.getActivity()).getStaffItem().getStaffID().equals(item.getStaffID())) {
+                holder.ivHighlight.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     public StaffItem getItem(int pos) {
@@ -71,6 +79,8 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
 
         @Bind(R.id.staff_layout)
         LinearLayout staffLayout;
+        @Bind(R.id.iv_highlight)
+        ImageView ivHighlight;
         @Bind(R.id.tv_staff_name)
         TextView tvStaff;
 

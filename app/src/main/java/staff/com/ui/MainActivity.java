@@ -18,6 +18,8 @@ import butterknife.ButterKnife;
 import staff.com.R;
 import staff.com.application.DeliveryApplication;
 import staff.com.consts.StateConsts;
+import staff.com.db.WarehouseDB;
+import staff.com.db.ZoneDB;
 import staff.com.fragment.HomeFragment;
 import staff.com.fragment.DeleteZoneFragment;
 import staff.com.fragment.StaffFragment;
@@ -66,10 +68,18 @@ public class MainActivity extends AppCompatActivity
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        FragmentManager manager = getFragmentManager();
-        manager.beginTransaction()
-                .replace(R.id.main_frame, StaffFragment.newInstance())
-                .commit();
+        ZoneDB zoneDB = new ZoneDB(MainActivity.this);
+        if(zoneDB.fetchAllZone().size() == 0) {
+            FragmentManager manager = getFragmentManager();
+            manager.beginTransaction()
+                    .replace(R.id.main_frame, HomeFragment.newInstance())
+                    .commit();
+        } else {
+            FragmentManager manager = getFragmentManager();
+            manager.beginTransaction()
+                    .replace(R.id.main_frame, StaffFragment.newInstance())
+                    .commit();
+        }
     }
 
     @Override
@@ -126,6 +136,27 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public void showNextFragment() {
+        Fragment fragment = null;
+        if(staffItem != null) {
+            fragment = ZoneFragment.newInstance();
+
+            if (fragment != null) {
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.main_frame, fragment)
+                        .commit();
+            }
+        } else {
+            fragment = StaffFragment.newInstance();
+
+            if (fragment != null) {
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.main_frame, fragment)
+                        .commit();
+            }
+        }
+    }
+
     public StaffItem getStaffItem() {
         return staffItem;
     }
@@ -134,8 +165,8 @@ public class MainActivity extends AppCompatActivity
         this.staffItem = item;
     }
 
-    public void moveToMain() {
-        Fragment fragment = HomeFragment.newInstance();
+    public void moveToZone() {
+        Fragment fragment = ZoneFragment.newInstance();
         getSupportActionBar().setTitle(R.string.app_name);
 
         if (fragment != null) {
@@ -144,7 +175,7 @@ public class MainActivity extends AppCompatActivity
                     .commit();
         }
 
-        navigationView.getMenu().getItem(0).setChecked(true);
+        navigationView.getMenu().getItem(3).setChecked(true);
     }
 
 }

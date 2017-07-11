@@ -2,6 +2,8 @@ package staff.com.adapter;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +62,12 @@ public class OtherLocationAdapter extends RecyclerView.Adapter<OtherLocationAdap
 
         final StockItem stockItem = stockDB.fetchStockByStockID(item.getOtherID()).get(0);
 
-        holder.tvOtherLocation.setText(warehouseItem.getName() + " " + zoneItem.getZone() + " " + bayItem.getBay());
+        String strLocation = warehouseItem.getName() + " " + zoneItem.getZone() + " " + bayItem.getBay();
+
+        SpannableString content = new SpannableString(strLocation);
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+
+        holder.tvOtherLocation.setText(content);
         holder.tvOtherLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

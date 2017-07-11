@@ -65,7 +65,7 @@ public class StaffFragment extends Fragment {
 
     public void startMainActivity(StaffItem staffItem) {
         ((MainActivity) getActivity()).setStaffItem(staffItem);
-        ((MainActivity) getActivity()).moveToMain();
+        ((MainActivity) getActivity()).moveToZone();
     }
 
 

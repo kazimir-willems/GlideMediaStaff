@@ -251,7 +251,7 @@ public class HomeFragment extends Fragment {
         builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                ((MainActivity) getActivity()).showZoneFragment();
+                ((MainActivity) getActivity()).showNextFragment();
             }
         }).create().show();
     }
