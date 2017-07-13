@@ -175,6 +175,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
         holder.tvLastLoose.setText(item.getLastLoose());
         holder.tvEstQty.setText(item.getQtyEstimate());
         holder.tvLastStocktakeDate.setText(item.getLastStockTakeDate());
+        holder.tvStockReceived.setText(item.getStockReceived());
 
         if(!StringUtil.isEmpty(item.getLastStockTakeQty())) {
             String strLastTakeQty = NumberFormat.getNumberInstance(Locale.US).format(Integer.valueOf(item.getLastStockTakeQty()));
@@ -433,6 +434,8 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
         Spinner issueSpin;
         @Bind(R.id.btn_update)
         Button btnUpdate;
+        @Bind(R.id.tv_stock_received)
+        TextView tvStockReceived;
         @Bind(R.id.iv_status)
         ImageView ivStatus;
         @Bind(R.id.other_list)

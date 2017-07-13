@@ -74,6 +74,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     DBConsts.FIELD_NEW_BAY + " TEXT," +
                     DBConsts.FIELD_DATE_TIMESTAMP + " TEXT," +
                     DBConsts.FIELD_STAFF_ID + " TEXT," +
+                    DBConsts.FIELD_STOCK_RECEIVED + " TEXT," +
                     DBConsts.FIELD_COMPLETED + " INTEGER);";
 
     protected static String OTHER_TABLE_CREATE_SQL =

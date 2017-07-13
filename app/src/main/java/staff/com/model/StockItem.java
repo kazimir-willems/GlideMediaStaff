@@ -33,6 +33,7 @@ public class StockItem implements Serializable {
     private String newBay;
     private String dateTimeStamp;
     private String staffID;
+    private String stockReceived;
     private int completed;
 
 
@@ -245,5 +246,13 @@ public class StockItem implements Serializable {
 
     public int getCompleted() {
         return completed;
+    }
+
+    public void setStockReceived(String value) {
+        this.stockReceived = value;
+    }
+
+    public String getStockReceived() {
+        return stockReceived;
     }
 }

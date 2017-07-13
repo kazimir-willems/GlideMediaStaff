@@ -63,10 +63,14 @@
     <string name="hint_loose">Loose:</string>
     <string name="hint_est">Est:</string>
     <string name="hint_last_stocktake">Last:</string>
+    <string name="hint_stock_received">Received:</string>
     <string name="hint_box_qty">Box qty:</string>
     <string name="hint_new_total">New total:</string>
     <string name="hint_move_location">Move location:</string>
-    <string name="hint_issue">Issue:</string>
+    <string name="hint_issue">Comments:</string>
+    <string name="hint_warehouse">Warehouse</string>
+    <string name="hint_zone">Zone</string>
+    <string name="hint_bay">Bay</string>
     <string name="btn_login">Login</string>
     <string name="btn_full">FULL</string>
     <string name="btn_part">PART</string>
