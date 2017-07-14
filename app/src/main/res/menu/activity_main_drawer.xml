@@ -10,8 +10,13 @@
             android:actionLayout="@layout/drawer_menu_item"/>
 
         <item
-            android:id="@+id/nav_despatch"
-            android:title="@string/warehouses"
+            android:id="@+id/nav_delete_zone"
+            android:title="@string/delete_zones"
+            android:actionLayout="@layout/drawer_menu_item"/>
+
+        <item
+            android:id="@+id/nav_start_stock_take"
+            android:title="@string/start_stock_take"
             android:actionLayout="@layout/drawer_menu_item"/>
 
         <item

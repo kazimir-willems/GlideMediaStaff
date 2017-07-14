@@ -71,6 +71,23 @@ public class StockDB extends DBHelper {
         return ret;
     }
 
+    public ArrayList<StockItem> fetchStockByStockID(String titleID) {
+        ArrayList<StockItem> ret = null;
+        try {
+            String szWhere = DBConsts.FIELD_STOCK_ID + " = '" + titleID + "'";
+            synchronized (DB_LOCK) {
+                SQLiteDatabase db = getReadableDatabase();
+                Cursor cursor = db.query(DBConsts.TABLE_NAME_STOCK, null, szWhere, null, null, null, null);
+                ret = createStockBeans(cursor);
+                db.close();
+            }
+        } catch (IllegalStateException ex) {
+            ex.printStackTrace();
+        }
+
+        return ret;
+    }
+
     public boolean isExist(StockItem item) {
         boolean bExist = false;
         try {
@@ -120,6 +137,7 @@ public class StockDB extends DBHelper {
                 value.put(DBConsts.FIELD_NEW_BAY, bean.getNewBay());
                 value.put(DBConsts.FIELD_DATE_TIMESTAMP, bean.getDateTimeStamp());
                 value.put(DBConsts.FIELD_STAFF_ID, bean.getStaffID());
+                value.put(DBConsts.FIELD_STOCK_RECEIVED, bean.getStockReceived());
                 value.put(DBConsts.FIELD_COMPLETED, bean.getCompleted());
                 synchronized (DB_LOCK) {
                     SQLiteDatabase db = getWritableDatabase();
@@ -257,6 +275,7 @@ public class StockDB extends DBHelper {
                     COL_NEW_BAY     		    = c.getColumnIndexOrThrow(DBConsts.FIELD_NEW_BAY),
                     COL_DATETIME_STAMP  		= c.getColumnIndexOrThrow(DBConsts.FIELD_DATE_TIMESTAMP),
                     COL_STAFF_ID     	 	    = c.getColumnIndexOrThrow(DBConsts.FIELD_STAFF_ID),
+                    COL_STOCK_RECEIVED          = c.getColumnIndexOrThrow(DBConsts.FIELD_STOCK_RECEIVED),
                     COL_COMPLETED               = c.getColumnIndexOrThrow(DBConsts.FIELD_COMPLETED);
 
             while (c.moveToNext()) {
@@ -286,6 +305,7 @@ public class StockDB extends DBHelper {
                 bean.setNewBay(c.getString(COL_NEW_BAY));
                 bean.setDateTimeStamp(c.getString(COL_DATETIME_STAMP));
                 bean.setStaffID(c.getString(COL_STAFF_ID));
+                bean.setStockReceived(c.getString(COL_STOCK_RECEIVED));
                 bean.setCompleted(c.getInt(COL_COMPLETED));
                 ret.add(bean);
             }

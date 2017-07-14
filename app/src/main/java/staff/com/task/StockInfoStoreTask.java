@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import staff.com.consts.StateConsts;
 import staff.com.db.BayDB;
 import staff.com.db.IssueDB;
+import staff.com.db.OtherLocationDB;
 import staff.com.db.StaffDB;
 import staff.com.db.StockDB;
 import staff.com.db.WarehouseDB;
@@ -19,6 +20,7 @@ import staff.com.db.ZoneDB;
 import staff.com.event.StockInfoStoreEvent;
 import staff.com.model.BayItem;
 import staff.com.model.IssueItem;
+import staff.com.model.OtherLocationItem;
 import staff.com.model.StaffItem;
 import staff.com.model.StockItem;
 import staff.com.model.WarehouseItem;
@@ -109,6 +111,8 @@ public class StockInfoStoreTask extends AsyncTask<DownloadStockInfoResponseVo, V
             BayDB bayDB = new BayDB(ctx);
             StockDB stockDB = new StockDB(ctx);
 
+            OtherLocationDB otherLocationDB = new OtherLocationDB(ctx);
+
             for(int i = 0; i < jsonBayArray.length(); i++) {
                 JSONObject jsonBayItem = jsonBayArray.getJSONObject(i);
 
@@ -156,6 +160,21 @@ public class StockInfoStoreTask extends AsyncTask<DownloadStockInfoResponseVo, V
                     stockItem.setNewBay(jsonStockItem.getString("newBay"));
                     stockItem.setDateTimeStamp(jsonStockItem.getString("datetimestamp"));
                     stockItem.setStaffID(jsonStockItem.getString("staffid"));
+                    stockItem.setStockReceived(jsonStockItem.getString("stockrecieved"));
+
+                    JSONArray jsonOtherArray = new JSONArray(jsonStockItem.getString("otherlocation"));
+                    for(int l = 0; l < jsonOtherArray.length(); l++) {
+                        JSONObject jsonOtherItem = jsonOtherArray.getJSONObject(l);
+
+                        OtherLocationItem item = new OtherLocationItem();
+                        item.setStockID(stockID);
+                        item.setOtherID(jsonOtherItem.getString("id"));
+                        item.setWarehouseID(jsonOtherItem.getString("warehouseID"));
+                        item.setZoneID(jsonOtherItem.getString("zoneID"));
+                        item.setBayID(jsonOtherItem.getString("bayID"));
+
+                        otherLocationDB.addOtherLocation(item);
+                    }
 
                     stockDB.addStock(stockItem);
                 }

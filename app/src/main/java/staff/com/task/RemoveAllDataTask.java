@@ -7,6 +7,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import staff.com.db.BayDB;
 import staff.com.db.IssueDB;
+import staff.com.db.OtherLocationDB;
 import staff.com.db.StaffDB;
 import staff.com.db.StockDB;
 import staff.com.db.WarehouseDB;
@@ -41,6 +42,8 @@ public class RemoveAllDataTask extends AsyncTask<String, Void, Boolean> {
             issueDB.removeAllDatas();
             StaffDB staffDB = new StaffDB(context);
             staffDB.removeAllDatas();
+            OtherLocationDB otherLocationDB = new OtherLocationDB(context);
+            otherLocationDB.removeAllDatas();
             return true;
         } catch (Exception e) {
             return false;

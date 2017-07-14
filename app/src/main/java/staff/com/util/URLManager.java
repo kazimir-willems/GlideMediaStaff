@@ -9,6 +9,14 @@ public class URLManager {
         return "http://glideadmin.co.uk/json/stocktake-download.php";
     }
 
+    public static String getCheltenhamDownURL() {
+        return "http://glideadmin.co.uk/json/stocktake-download-chel.php";
+    }
+
+    public static String getWessexDownURL() {
+        return "http://glideadmin.co.uk/json/stocktake-download-wess.php";
+    }
+
     public static String getUploadStockInfoURL() {
 //        return "http://glideadmin.co.uk/json/deliverySend.php";
         return "http://glideadmin.co.uk/json/stocktake-upload.php";

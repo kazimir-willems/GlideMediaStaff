@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 import staff.com.R;
 import staff.com.consts.StateConsts;
+import staff.com.fragment.ZoneFragment;
 import staff.com.model.WarehouseItem;
 import staff.com.model.ZoneItem;
 import staff.com.ui.ZoneActivity;
@@ -24,12 +25,12 @@ import staff.com.ui.ZoneActivity;
  */
 
 public class WarehouseAdapter extends BaseExpandableListAdapter {
-    private ZoneActivity ctx;
+    private ZoneFragment ctx;
 
     private HashMap<String, ArrayList<ZoneItem>> zoneItems = new HashMap<>();
     private ArrayList<WarehouseItem> warehouseItems = new ArrayList<>();
 
-    public WarehouseAdapter(ZoneActivity parent) {
+    public WarehouseAdapter(ZoneFragment parent) {
         this.ctx = parent;
     }
 
@@ -53,7 +54,7 @@ public class WarehouseAdapter extends BaseExpandableListAdapter {
         final String zone = item.getZone();
 
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) ctx
+            LayoutInflater infalInflater = (LayoutInflater) ctx.getActivity()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.adapter_zone, null);
         }
@@ -109,7 +110,7 @@ public class WarehouseAdapter extends BaseExpandableListAdapter {
                              View convertView, ViewGroup parent) {
         String headerTitle = ((WarehouseItem) getGroup(groupPosition)).getAddress();
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this.ctx
+            LayoutInflater infalInflater = (LayoutInflater) this.ctx.getActivity()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.adapter_warehouse, null);
         }

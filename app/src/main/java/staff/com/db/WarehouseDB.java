@@ -9,17 +9,23 @@ import java.util.ArrayList;
 
 import staff.com.consts.DBConsts;
 import staff.com.model.WarehouseItem;
+import staff.com.model.ZoneItem;
 import staff.com.util.DBHelper;
 
 public class WarehouseDB extends DBHelper {
     private static final Object[] DB_LOCK 		= new Object[0];
 
+    private Context ctx;
+
     public WarehouseDB(Context context) {
         super(context);
+
+        ctx = context;
     }
 
     public ArrayList<WarehouseItem> fetchAllWarehouse() {
         ArrayList<WarehouseItem> ret = null;
+
         try {
             synchronized (DB_LOCK) {
                 SQLiteDatabase db = getReadableDatabase();
@@ -118,7 +124,11 @@ public class WarehouseDB extends DBHelper {
                 bean.setID(c.getString(COL_WAREHOUSE_ID));
                 bean.setName(c.getString(COL_WAREHOUSE_NAME));
                 bean.setAddress(c.getString(COL_WAREHOUSE_ADDRESS));
-                ret.add(bean);
+
+                ZoneDB zoneDB = new ZoneDB(ctx);
+                ArrayList<ZoneItem> items = zoneDB.fetchZoneByWarehouseID(bean.getId());
+                if(items.size() > 0)
+                    ret.add(bean);
             }
 
             c.close();

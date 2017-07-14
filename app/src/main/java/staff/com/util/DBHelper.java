@@ -74,7 +74,17 @@ public class DBHelper extends SQLiteOpenHelper {
                     DBConsts.FIELD_NEW_BAY + " TEXT," +
                     DBConsts.FIELD_DATE_TIMESTAMP + " TEXT," +
                     DBConsts.FIELD_STAFF_ID + " TEXT," +
+                    DBConsts.FIELD_STOCK_RECEIVED + " TEXT," +
                     DBConsts.FIELD_COMPLETED + " INTEGER);";
+
+    protected static String OTHER_TABLE_CREATE_SQL =
+            "CREATE TABLE IF NOT EXISTS " + DBConsts.TABLE_NAME_OTHER_LOCATION + " (" +
+                    DBConsts.FIELD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    DBConsts.FIELD_STOCK_ID + " TEXT," +
+                    DBConsts.FIELD_OTHER_ID + " TEXT," +
+                    DBConsts.FIELD_WAREHOUSE_ID + " TEXT," +
+                    DBConsts.FIELD_ZONE_ID + " TEXT," +
+                    DBConsts.FIELD_BAY_ID + " TEXT);";
 
     public DBHelper(Context context) {
         super(context, DB_NAME_PREFIX, null, DB_VERSION);
@@ -91,6 +101,7 @@ public class DBHelper extends SQLiteOpenHelper {
             db.execSQL(ZONE_TABLE_CREATE_SQL);
             db.execSQL(BAY_TABLE_CREATE_SQL);
             db.execSQL(STOCK_TABLE_CREATE_SQL);
+            db.execSQL(OTHER_TABLE_CREATE_SQL);
         } catch (IllegalStateException ex) {
             ex.printStackTrace();
         }

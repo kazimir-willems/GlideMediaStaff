@@ -75,11 +75,11 @@ public class LoginActivity extends AppCompatActivity {
         if (responseVo != null) {
             if(responseVo.status.equals("success")) {
                 String access = responseVo.access;
-                if(access.equals("driver")) {
-                    DeliveryApplication.nAccess = StateConsts.USER_DRIVER;
-                    startStaffActivity();
-                } else if(access.equals("admin")) {
-                    DeliveryApplication.nAccess = StateConsts.USER_ADMIN;
+                if(access.equals("cheltenham")) {
+                    DeliveryApplication.nAccess = StateConsts.USER_CHELTENHAM;
+                    startHomeActivity();
+                } else if(access.equals("wessex")) {
+                    DeliveryApplication.nAccess = StateConsts.USER_WESSEX;
                     startHomeActivity();
                 }
             } else {
@@ -129,11 +129,11 @@ public class LoginActivity extends AppCompatActivity {
     //storing token to mysql server
     private void startSignIn() {
 
-        if(username.equals("driver") && password.equals("wordpass123")) {
-            DeliveryApplication.nAccess = StateConsts.USER_DRIVER;
-            startStaffActivity();
-        } else if (username.equals("admin") && password.equals("wordpass123")) {
-            DeliveryApplication.nAccess = StateConsts.USER_ADMIN;
+        if(username.equals("cheltenham") && password.equals("wordpass123")) {
+            DeliveryApplication.nAccess = StateConsts.USER_CHELTENHAM;
+            startHomeActivity();
+        } else if (username.equals("wessex") && password.equals("wordpass123")) {
+            DeliveryApplication.nAccess = StateConsts.USER_WESSEX;
             startHomeActivity();
         } else {
             progressDialog.setMessage(getResources().getString(R.string.signing_in));
@@ -156,12 +156,6 @@ public class LoginActivity extends AppCompatActivity {
     //start Home Activity
     private void startHomeActivity() {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    private void startStaffActivity() {
-        Intent intent = new Intent(LoginActivity.this, StaffActivity.class);
         startActivity(intent);
         finish();
     }

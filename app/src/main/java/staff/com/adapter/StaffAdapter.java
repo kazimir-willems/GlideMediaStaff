@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -13,15 +14,16 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import staff.com.R;
+import staff.com.fragment.StaffFragment;
 import staff.com.model.StaffItem;
-import staff.com.ui.StaffActivity;
+import staff.com.ui.MainActivity;
 
 public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHolder> {
 
-    private StaffActivity parent;
+    private StaffFragment parent;
     private List<StaffItem> items = new ArrayList<>();
 
-    public StaffAdapter(StaffActivity parent) {
+    public StaffAdapter(StaffFragment parent) {
         this.parent = parent;
     }
 
@@ -40,9 +42,15 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
         holder.staffLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                parent.startZoneActivity(item);
+                parent.startMainActivity(item);
             }
         });
+
+        if(((MainActivity)parent.getActivity()).getStaffItem() != null) {
+            if (((MainActivity) parent.getActivity()).getStaffItem().getStaffID().equals(item.getStaffID())) {
+                holder.ivHighlight.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     public StaffItem getItem(int pos) {
@@ -71,6 +79,8 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
 
         @Bind(R.id.staff_layout)
         LinearLayout staffLayout;
+        @Bind(R.id.iv_highlight)
+        ImageView ivHighlight;
         @Bind(R.id.tv_staff_name)
         TextView tvStaff;
 
