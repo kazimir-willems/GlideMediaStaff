@@ -61,7 +61,8 @@ public class MakeUploadDataTask extends AsyncTask<Void, Void, String> {
                         StockItem stockItem = stockItems.get(k);
 
                         JSONObject jsonStockItem = new JSONObject();
-                        jsonStockItem.put("id", stockItem.getStockID());
+                        jsonStockItem.put("id", stockItem.getId());
+                        jsonStockItem.put("stockid", stockItem.getStockID());
                         jsonStockItem.put("titleid", stockItem.getTitleID());
                         jsonStockItem.put("warehouseID", stockItem.getWarehouseID());
                         jsonStockItem.put("zoneID", stockItem.getZoneID());
@@ -80,11 +81,13 @@ public class MakeUploadDataTask extends AsyncTask<Void, Void, String> {
                         jsonStockItem.put("newBox", stockItem.getNewBox());
                         jsonStockItem.put("newLoose", stockItem.getNewLoose());
                         jsonStockItem.put("newIssue", stockItem.getNewIssue());
+                        jsonStockItem.put("newQty", stockItem.getNewTotal());
                         jsonStockItem.put("newWarehouse", stockItem.getNewWarehouse());
                         jsonStockItem.put("newZone", stockItem.getNewZone());
                         jsonStockItem.put("newBay", stockItem.getNewBay());
                         jsonStockItem.put("datetimestamp", stockItem.getDateTimeStamp());
                         jsonStockItem.put("staffid", stockItem.getStaffID());
+                        jsonStockItem.put("stockrecieved", stockItem.getStockReceived());
 
                         jsonStockArray.put(jsonStockItem);
                     }

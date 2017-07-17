@@ -71,10 +71,10 @@ public class StockDB extends DBHelper {
         return ret;
     }
 
-    public ArrayList<StockItem> fetchStockByStockID(String titleID) {
+    public ArrayList<StockItem> fetchStockByStockID(String id) {
         ArrayList<StockItem> ret = null;
         try {
-            String szWhere = DBConsts.FIELD_STOCK_ID + " = '" + titleID + "'";
+            String szWhere = DBConsts.FIELD_UNIQUE_ID + " = '" + id + "'";
             synchronized (DB_LOCK) {
                 SQLiteDatabase db = getReadableDatabase();
                 Cursor cursor = db.query(DBConsts.TABLE_NAME_STOCK, null, szWhere, null, null, null, null);
@@ -91,7 +91,7 @@ public class StockDB extends DBHelper {
     public boolean isExist(StockItem item) {
         boolean bExist = false;
         try {
-            String szWhere = DBConsts.FIELD_WAREHOUSE_ID + " = '" + item.getWarehouseID() + "' AND " + DBConsts.FIELD_ZONE_ID + " = '" + item.getZoneID() + "' AND " + DBConsts.FIELD_BAY_ID + " = '" + item.getBayID() + "' AND " + DBConsts.FIELD_STOCK_ID + " = '" + item.getStockID() + "'";
+            String szWhere = DBConsts.FIELD_WAREHOUSE_ID + " = '" + item.getWarehouseID() + "' AND " + DBConsts.FIELD_ZONE_ID + " = '" + item.getZoneID() + "' AND " + DBConsts.FIELD_BAY_ID + " = '" + item.getBayID() + "' AND " + DBConsts.FIELD_UNIQUE_ID + " = '" + item.getId() + "'";
 
             synchronized (DB_LOCK) {
                 SQLiteDatabase db = getReadableDatabase();
@@ -112,6 +112,7 @@ public class StockDB extends DBHelper {
         if(!isExist(bean)) {
             try {
                 ContentValues value = new ContentValues();
+                value.put(DBConsts.FIELD_UNIQUE_ID, bean.getId());
                 value.put(DBConsts.FIELD_STOCK_ID, bean.getStockID());
                 value.put(DBConsts.FIELD_TITLE_ID, bean.getTitleID());
                 value.put(DBConsts.FIELD_WAREHOUSE_ID, bean.getWarehouseID());
@@ -193,7 +194,7 @@ public class StockDB extends DBHelper {
             String szWhere = DBConsts.FIELD_WAREHOUSE_ID + " = '" + item.getWarehouseID() + "' AND " +
                     DBConsts.FIELD_ZONE_ID + " = '" + item.getZoneID() + "' AND " +
                     DBConsts.FIELD_BAY_ID + " = '" + item.getBayID() + "' AND " +
-                    DBConsts.FIELD_STOCK_ID + " = '" + item.getStockID() + "'";
+                    DBConsts.FIELD_UNIQUE_ID + " = '" + item.getId() + "'";
             ContentValues value = new ContentValues();
 
             value.put(DBConsts.FIELD_NEW_PALLET, item.getNewPallet());
@@ -250,6 +251,7 @@ public class StockDB extends DBHelper {
             ret = new ArrayList();
 
             final int COL_ID	                = c.getColumnIndexOrThrow(DBConsts.FIELD_ID),
+                    COL_UNIQUE_ID               = c.getColumnIndexOrThrow(DBConsts.FIELD_UNIQUE_ID),
                     COL_STOCK_ID 	            = c.getColumnIndexOrThrow(DBConsts.FIELD_STOCK_ID),
                     COL_TITLE_ID                = c.getColumnIndexOrThrow(DBConsts.FIELD_TITLE_ID),
                     COL_WAREHOUSE_ID         	= c.getColumnIndexOrThrow(DBConsts.FIELD_WAREHOUSE_ID),
@@ -280,6 +282,7 @@ public class StockDB extends DBHelper {
 
             while (c.moveToNext()) {
                 StockItem bean = new StockItem();
+                bean.setId(c.getString(COL_UNIQUE_ID));
                 bean.setStockID(c.getString(COL_STOCK_ID));
                 bean.setTitleID(c.getString(COL_TITLE_ID));
                 bean.setWarehouseID(c.getString(COL_WAREHOUSE_ID));

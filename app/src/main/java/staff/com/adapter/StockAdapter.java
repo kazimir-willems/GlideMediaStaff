@@ -175,7 +175,13 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
         holder.tvLastLoose.setText(item.getLastLoose());
         holder.tvEstQty.setText(item.getQtyEstimate());
         holder.tvLastStocktakeDate.setText(item.getLastStockTakeDate());
-        holder.tvStockReceived.setText(item.getStockReceived());
+
+        if(!StringUtil.isEmpty(item.getStockReceived())) {
+            String strStockReceived = NumberFormat.getNumberInstance(Locale.US).format(Integer.valueOf(item.getStockReceived()));
+            holder.tvStockReceived.setText(strStockReceived);
+        } else {
+            holder.tvStockReceived.setText("");
+        }
 
         if(!StringUtil.isEmpty(item.getLastStockTakeQty())) {
             String strLastTakeQty = NumberFormat.getNumberInstance(Locale.US).format(Integer.valueOf(item.getLastStockTakeQty()));

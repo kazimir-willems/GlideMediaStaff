@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 
 import staff.com.consts.DBConsts;
-import staff.com.model.IssueItem;
 import staff.com.model.OtherLocationItem;
 import staff.com.model.StockItem;
 import staff.com.util.DBHelper;
@@ -23,7 +22,7 @@ public class OtherLocationDB extends DBHelper {
     public ArrayList<OtherLocationItem> fetchOtherLocation(StockItem item) {
         ArrayList<OtherLocationItem> ret = null;
         try {
-            String szWhere = DBConsts.FIELD_STOCK_ID + " = '" + item.getStockID() + "'";
+            String szWhere = DBConsts.FIELD_STOCK_ID + " = '" + item.getId() + "'";
 
             synchronized (DB_LOCK) {
                 SQLiteDatabase db = getReadableDatabase();

@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 public class StockItem implements Serializable {
     //NNew Stock Information
+    private String id;
     private String stockID;
     private String titleID;
     private String warehouseID;
@@ -38,6 +39,14 @@ public class StockItem implements Serializable {
 
 
     public StockItem() {
+    }
+
+    public void setId(String value) {
+        this.id = value;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public void setStockID(String value) {

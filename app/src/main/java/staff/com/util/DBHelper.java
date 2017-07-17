@@ -49,6 +49,7 @@ public class DBHelper extends SQLiteOpenHelper {
     protected static String STOCK_TABLE_CREATE_SQL =
             "CREATE TABLE IF NOT EXISTS " + DBConsts.TABLE_NAME_STOCK + " (" +
                     DBConsts.FIELD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    DBConsts.FIELD_UNIQUE_ID + " TEXT," +
                     DBConsts.FIELD_STOCK_ID + " TEXT," +
                     DBConsts.FIELD_TITLE_ID + " TEXT," +
                     DBConsts.FIELD_WAREHOUSE_ID + " TEXT," +

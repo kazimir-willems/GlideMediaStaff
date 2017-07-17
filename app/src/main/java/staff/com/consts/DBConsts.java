@@ -33,6 +33,7 @@ public class DBConsts {
     public static final String FIELD_BAY_ID = "bay_id";
     public static final String FIELD_BAY = "bay";
 
+    public static final String FIELD_UNIQUE_ID = "unique_id";
     public static final String FIELD_STOCK_ID = "stock_id";
     public static final String FIELD_TITLE_ID = "title_id";
     public static final String FIELD_TITLE = "title";
