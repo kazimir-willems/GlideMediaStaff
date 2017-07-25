@@ -53,6 +53,9 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
     private ArrayList<BayItem> bayItems = new ArrayList<>();
     private ArrayList<IssueItem> issueList = new ArrayList<>();
 
+    private boolean firstZoneSelection = true;
+    private boolean firstBaySelection = true;
+
     private String lastWarehouseID = "";
     private String lastZoneID = "";
     private String lastBayID = "";
@@ -108,6 +111,9 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
             holder.totalLayout.setBackgroundColor(parent.getResources().getColor(R.color.colorBackGray));
         }
 
+        firstBaySelection = true;
+        firstZoneSelection = true;
+
         final StockItem item = items.get(position);
 
         holder.otherList.setHasFixedSize(true);
@@ -151,7 +157,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
 
         newBayItem.setWarehouseID(lastWarehouseID);
         newBayItem.setZoneID(lastZoneID);
-        newBayItem.setBay(lastBayID);
+        newBayItem.setBayID(lastBayID);
 
         holder.tvTitleID.setText(item.getTitleID());
         holder.tvStockTitle.setText(item.getTitle());
@@ -210,6 +216,12 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
                 ArrayAdapter zoneAdapter = new ArrayAdapter(StockAdapter.this.parent.getActivity(), android.R.layout.simple_spinner_dropdown_item, zoneItems);
                 holder.zoneSpin.setAdapter(zoneAdapter);
 
+                    for(int i = 0; i < zoneItems.size(); i++) {
+                        if(item.getZoneID().equals(zoneItems.get(i).getZoneID())) {
+                            holder.zoneSpin.setSelection(i);
+                        }
+                    }
+
                 selectedWarehousePos = position;
             }
 
@@ -229,6 +241,12 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
                 holder.baySpin.setAdapter(bayAdapter);
 
                 selectedZonePos = position;
+
+                    for(int i = 0; i < bayItems.size(); i++) {
+                        if(item.getBayID().equals(bayItems.get(i).getBayID())) {
+                            holder.baySpin.setSelection(i);
+                        }
+                    }
             }
 
             @Override
@@ -316,6 +334,19 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
         holder.btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                newTotal = Integer.valueOf(holder.edtBoxes.getText().toString()) * Integer.valueOf(item.getQtyBox()) + Integer.valueOf(holder.edtLoose.getText().toString());
+                int currentIssueID = Integer.valueOf(currentIssueItem.getIssueID());
+                switch(currentIssueID) {
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                        if(newTotal == 0) {
+                            Toast.makeText(parent.getActivity(), R.string.qty_required, Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        break;
+                }
                 if (lastWarehousePos == selectedWarehousePos && lastZonePos == selectedZonePos && lastBayPos == selectedBayPos) {
                     if(currentIssueItem.getIssueID().equals("5")) {
                         Toast.makeText(parent.getActivity(), R.string.select_new_location, Toast.LENGTH_SHORT).show();
@@ -372,6 +403,16 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
         holder.baySpin.setAdapter(bayAdapter);
 
         holder.issueSpin.setSelection(Integer.valueOf(item.getNewIssue()) - 1);
+
+        for(int i = 0; i < warehouseItems.size(); i++) {
+            if(item.getWarehouseID().equals(warehouseItems.get(i).getId())) {
+                holder.warehouseSpin.setSelection(i);
+            }
+        }
+
+
+
+
     }
 
     public StockItem getItem(int pos) {

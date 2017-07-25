@@ -9,11 +9,13 @@ import android.support.design.widget.NavigationView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import staff.com.R;
@@ -39,6 +41,14 @@ import staff.com.vo.UploadStockInfoResponseVo;
 public class HomeFragment extends Fragment {
 
     private ProgressDialog progressDialog;
+
+    @Bind(R.id.btn_upload_stock)
+    LinearLayout btnUploadStock;
+
+    @Bind(R.id.btn_upload_modified_stock)
+    LinearLayout btnUploadModifiedStock;
+
+    private int uploadState = 0;        // 1; Upload Warehouse,  2: Upload Modified Stock
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -161,6 +171,8 @@ public class HomeFragment extends Fragment {
 
         MakeUploadDataTask task = new MakeUploadDataTask(getActivity());
         task.execute();
+
+        uploadState = 1;
     }
 
     @OnClick(R.id.btn_upload_modified_stock)
@@ -170,6 +182,8 @@ public class HomeFragment extends Fragment {
 
         MakeModifiedDataTask task = new MakeModifiedDataTask(getActivity());
         task.execute();
+
+        uploadState = 2;
     }
 
     @OnClick(R.id.btn_remove_stock)
@@ -228,6 +242,12 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                if(uploadState == 1) {
+                    btnUploadStock.getBackground().setAlpha(50);
+                } else if (uploadState == 2) {
+                    btnUploadModifiedStock.getBackground().setAlpha(50);
+                }
+                uploadState = 0;
             }
         }).create().show();
     }

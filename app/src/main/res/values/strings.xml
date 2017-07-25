@@ -82,6 +82,7 @@
     <string name="btn_delete">DELETE</string>
     <string name="btn_search">SEARCH</string>
     <string name="btn_update">UPDATE</string>
+    <string name="qty_required">Qty Required.</string>
 
     <array name="outlet_reason">
         <item>Closed</item>
