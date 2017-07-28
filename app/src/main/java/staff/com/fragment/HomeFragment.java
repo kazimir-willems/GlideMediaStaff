@@ -9,7 +9,9 @@ import android.support.design.widget.NavigationView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
@@ -43,10 +45,16 @@ public class HomeFragment extends Fragment {
     private ProgressDialog progressDialog;
 
     @Bind(R.id.btn_upload_stock)
-    LinearLayout btnUploadStock;
+    RelativeLayout btnUploadStock;
 
     @Bind(R.id.btn_upload_modified_stock)
-    LinearLayout btnUploadModifiedStock;
+    RelativeLayout btnUploadModifiedStock;
+
+    @Bind(R.id.iv_update_stock)
+    ImageView ivUpdateStock;
+
+    @Bind(R.id.iv_update_modified_stock)
+    ImageView ivUpdateModifiedStock;
 
     private int uploadState = 0;        // 1; Upload Warehouse,  2: Upload Modified Stock
 
@@ -244,8 +252,10 @@ public class HomeFragment extends Fragment {
                 dialog.dismiss();
                 if(uploadState == 1) {
                     btnUploadStock.getBackground().setAlpha(50);
+                    ivUpdateStock.setVisibility(View.VISIBLE);
                 } else if (uploadState == 2) {
                     btnUploadModifiedStock.getBackground().setAlpha(50);
+                    ivUpdateModifiedStock.setVisibility(View.VISIBLE);
                 }
                 uploadState = 0;
             }

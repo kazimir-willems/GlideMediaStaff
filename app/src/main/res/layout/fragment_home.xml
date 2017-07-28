@@ -58,12 +58,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_centerVertical="true">
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/btn_upload_stock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/ButtonDefault"
-                android:orientation="horizontal"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
@@ -73,27 +72,36 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:src="@drawable/ic_upload"/>
 
                 <TextView
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:gravity="center"
+                    android:layout_centerVertical="true"
                     android:text="@string/upload_stock"
                     style="@style/UpTextStyle"
                     android:singleLine="false"/>
 
-            </LinearLayout>
+                <ImageView
+                    android:id="@+id/iv_update_stock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_check"/>
 
-            <LinearLayout
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/btn_upload_modified_stock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 style="@style/ButtonDefault"
-                android:orientation="horizontal"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
@@ -103,19 +111,29 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:src="@drawable/ic_upload"/>
 
                 <TextView
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:gravity="center"
                     android:text="@string/upload_modified_stock"
+                    android:layout_centerVertical="true"
                     style="@style/UpTextStyle"
                     android:singleLine="false"/>
 
-            </LinearLayout>
+                <ImageView
+                    android:id="@+id/iv_update_modified_stock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_check"/>
+
+            </RelativeLayout>
 
         </LinearLayout>
 
