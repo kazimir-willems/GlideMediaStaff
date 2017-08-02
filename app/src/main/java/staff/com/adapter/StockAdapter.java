@@ -166,8 +166,10 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
 
         if(item.getCompleted() == StateConsts.STATE_DEFAULT) {
             holder.ivStatus.setBackground(parent.getResources().getDrawable(R.drawable.ic_delete));
+            holder.btnUpdate.setBackground(parent.getResources().getDrawable(R.drawable.button_not_complete));
         } else if (item.getCompleted() == StateConsts.STATE_COMPLETED) {
             holder.ivStatus.setBackground(parent.getResources().getDrawable(R.drawable.ic_complete));
+            holder.btnUpdate.setBackground(parent.getResources().getDrawable(R.drawable.button_update));
         }
 
         if(item.getStatus().equals("In Stock")) {
@@ -381,6 +383,8 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
 
                 holder.ivStatus.setBackground(parent.getResources().getDrawable(R.drawable.ic_complete));
                 parent.updateStockItem(item);
+
+                holder.btnUpdate.setBackground(parent.getResources().getDrawable(R.drawable.button_update));
             }
         });
 
@@ -391,6 +395,8 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
 
                 holder.ivStatus.setBackground(parent.getResources().getDrawable(R.drawable.ic_delete));
                 parent.updateStockItem(item);
+
+                holder.btnUpdate.setBackground(parent.getResources().getDrawable(R.drawable.button_not_complete));
             }
         });
 

@@ -251,10 +251,10 @@ public class HomeFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 if(uploadState == 1) {
-                    btnUploadStock.getBackground().setAlpha(50);
+                    btnUploadStock.getBackground().setAlpha(128);
                     ivUpdateStock.setVisibility(View.VISIBLE);
                 } else if (uploadState == 2) {
-                    btnUploadModifiedStock.getBackground().setAlpha(50);
+                    btnUploadModifiedStock.getBackground().setAlpha(128);
                     ivUpdateModifiedStock.setVisibility(View.VISIBLE);
                 }
                 uploadState = 0;

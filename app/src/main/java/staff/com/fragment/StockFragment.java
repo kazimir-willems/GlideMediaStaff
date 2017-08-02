@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -35,6 +36,8 @@ public class StockFragment extends Fragment {
     RecyclerView stockList;
     @Bind(R.id.tv_bay)
     TextView tvBay;
+    @Bind(R.id.zone_layout)
+    LinearLayout zoneLayout;
 
     private BayItem bayItem;
     private StockItem searchItem;
@@ -79,6 +82,23 @@ public class StockFragment extends Fragment {
         StockDB db = new StockDB(getActivity());
         items = db.fetchStocksByBay(bayItem);
 
+        boolean bUpdated = true;
+        for(int i = 0; i < items.size(); i++) {
+            if(items.get(i).getCompleted() != StateConsts.STATE_COMPLETED) {
+                bUpdated = false;
+                break;
+            }
+        }
+        if(bUpdated) {
+            zoneLayout.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+        } else {
+            zoneLayout.setBackgroundColor(getResources().getColor(R.color.colorPink));
+        }
+
+        refreshList();
+    }
+
+    private void refreshList() {
         adapter.addItems(items);
         adapter.notifyDataSetChanged();
     }
@@ -102,6 +122,8 @@ public class StockFragment extends Fragment {
                 ZoneDB zoneDB = new ZoneDB(getActivity());
                 zoneDB.updateZone(zoneItem);
             }
+
+            zoneLayout.setBackgroundColor(getResources().getColor(R.color.colorGreen));
         } else {
             bayItem.setCompleted(StateConsts.STATE_DEFAULT);
             BayDB bayDB = new BayDB(getActivity());
@@ -111,6 +133,8 @@ public class StockFragment extends Fragment {
             zoneItem.setCompleted(StateConsts.STATE_DEFAULT);
             ZoneDB zoneDB = new ZoneDB(getActivity());
             zoneDB.updateZone(zoneItem);
+
+            zoneLayout.setBackgroundColor(getResources().getColor(R.color.colorPink));
         }
 
         //Check whether bay is completed also zone is completed
