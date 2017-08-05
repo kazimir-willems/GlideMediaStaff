@@ -132,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
         if(username.equals("cheltenham") && password.equals("wordpass123")) {
             DeliveryApplication.nAccess = StateConsts.USER_CHELTENHAM;
             startHomeActivity();
-        } else if (username.equals("wessex") && password.equals("wordpass123")) {
+        } else if (username.equals("wessex") && password.equals("st0ckTak3")) {
             DeliveryApplication.nAccess = StateConsts.USER_WESSEX;
             startHomeActivity();
         } else {

@@ -24,7 +24,7 @@ public class URLManager {
 
     public static String getUploadModifiedStockURL() {
 //        return "http://glideadmin.co.uk/json/deliverySend.php";
-        return "http://glideadmin.co.uk/json/stocktake-upload.php";
+        return "http://glideadmin.co.uk/json/stocktake-upload-modified.php";
     }
 
     public static String getLoginURL() {

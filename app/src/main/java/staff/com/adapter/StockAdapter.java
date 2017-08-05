@@ -336,13 +336,18 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
         holder.btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                newTotal = Integer.valueOf(holder.edtBoxes.getText().toString()) * Integer.valueOf(item.getQtyBox()) + Integer.valueOf(holder.edtLoose.getText().toString());
                 int currentIssueID = Integer.valueOf(currentIssueItem.getIssueID());
                 switch(currentIssueID) {
                     case 1:
                     case 2:
                     case 3:
                     case 4:
+                        if(StringUtil.isEmpty(holder.edtPallets.getText().toString()) || StringUtil.isEmpty(holder.edtBoxes.getText().toString()) || StringUtil.isEmpty(holder.edtLoose.getText().toString())) {
+                            Toast.makeText(parent.getActivity(), R.string.input_qtys, Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        newTotal = Integer.valueOf(holder.edtBoxes.getText().toString()) * Integer.valueOf(item.getQtyBox()) + Integer.valueOf(holder.edtLoose.getText().toString());
+
                         if(newTotal == 0) {
                             Toast.makeText(parent.getActivity(), R.string.qty_required, Toast.LENGTH_SHORT).show();
                             return;
@@ -361,16 +366,11 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
                         item.setNewZone(newBayItem.getZoneID());
                         item.setNewBay(newBayItem.getBayID());
                     } else {
-                        if(currentIssueItem.getIssueID().equals("5")) {
+                        if (currentIssueItem.getIssueID().equals("5")) {
                             Toast.makeText(parent.getActivity(), R.string.select_new_location, Toast.LENGTH_SHORT).show();
                             return;
                         }
                     }
-                }
-
-                if(StringUtil.isEmpty(holder.edtPallets.getText().toString()) || StringUtil.isEmpty(holder.edtBoxes.getText().toString()) || StringUtil.isEmpty(holder.edtLoose.getText().toString())) {
-                    Toast.makeText(parent.getActivity(), R.string.input_qtys, Toast.LENGTH_SHORT).show();
-                    return;
                 }
 
                 item.setNewPallet(holder.edtPallets.getText().toString());
