@@ -28,6 +28,7 @@ import staff.com.event.MakeModifiedDataEvent;
 import staff.com.event.MakeUploadDataEvent;
 import staff.com.event.RemoveAllDataEvent;
 import staff.com.event.StockInfoStoreEvent;
+import staff.com.event.UploadModifiedStockEvent;
 import staff.com.event.UploadStockInfoEvent;
 import staff.com.task.DownloadStockInfoTask;
 import staff.com.task.MakeModifiedDataTask;
@@ -38,6 +39,7 @@ import staff.com.task.UploadModifiedStockTask;
 import staff.com.task.UploadStockInfoTask;
 import staff.com.ui.MainActivity;
 import staff.com.vo.DownloadStockInfoResponseVo;
+import staff.com.vo.UploadModifiedStockResponseVo;
 import staff.com.vo.UploadStockInfoResponseVo;
 
 public class HomeFragment extends Fragment {
@@ -120,6 +122,17 @@ public class HomeFragment extends Fragment {
     }
 
     @Subscribe
+    public void onUploadModifiedStockEvent(UploadModifiedStockEvent event) {
+        hideProgressDialog();
+        UploadModifiedStockResponseVo responseVo = event.getResponse();
+        if (responseVo != null) {
+            uploadSuccess();
+        } else {
+            networkError();
+        }
+    }
+
+    @Subscribe
     public void onStockInfoStoreEvent(StockInfoStoreEvent event) {
         hideProgressDialog();
         int result = event.getResponse();
@@ -161,7 +174,7 @@ public class HomeFragment extends Fragment {
         if(result == null || result.isEmpty()) {
             noCompletedDespatch();
         } else {
-            startUploadStockInfo(result);
+            startModifiedStockInfo(result);
         }
     }
 
