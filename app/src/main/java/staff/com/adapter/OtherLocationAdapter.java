@@ -13,7 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import staff.com.R;
 import staff.com.db.BayDB;
@@ -109,7 +109,7 @@ public class OtherLocationAdapter extends RecyclerView.Adapter<OtherLocationAdap
     public class OtherLocationViewHolder extends RecyclerView.ViewHolder {
         public final View view;
 
-        @Bind(R.id.tv_other_location)
+        @BindView(R.id.tv_other_location)
         TextView tvOtherLocation;
 
         public OtherLocationViewHolder(View view) {

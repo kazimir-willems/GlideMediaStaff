@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import staff.com.R;
 import staff.com.adapter.StaffAdapter;
@@ -22,7 +22,7 @@ public class StaffFragment extends Fragment {
 
     private ArrayList<StaffItem> staffItems = new ArrayList<>();
 
-    @Bind(R.id.staff_list)
+    @BindView(R.id.staff_list)
     RecyclerView staffList;
 
     private LinearLayoutManager mLinearLayoutManager;

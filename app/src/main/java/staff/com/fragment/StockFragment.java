@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import staff.com.R;
 import staff.com.adapter.StockAdapter;
@@ -32,11 +32,11 @@ import staff.com.ui.StockActivity;
 
 public class StockFragment extends Fragment {
 
-    @Bind(R.id.stock_list)
+    @BindView(R.id.stock_list)
     RecyclerView stockList;
-    @Bind(R.id.tv_bay)
+    @BindView(R.id.tv_bay)
     TextView tvBay;
-    @Bind(R.id.zone_layout)
+    @BindView(R.id.zone_layout)
     LinearLayout zoneLayout;
 
     private BayItem bayItem;
@@ -81,6 +81,12 @@ public class StockFragment extends Fragment {
     private void getStocks() {
         StockDB db = new StockDB(getActivity());
         items = db.fetchStocksByBay(bayItem);
+
+        if(items.size() == 0) {
+            bayItem.setCompleted(StateConsts.STATE_COMPLETED);
+            BayDB bayDB = new BayDB(getActivity());
+            bayDB.updateBay(bayItem);
+        }
 
         boolean bUpdated = true;
         for(int i = 0; i < items.size(); i++) {

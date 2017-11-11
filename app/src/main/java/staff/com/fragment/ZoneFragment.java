@@ -15,7 +15,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import staff.com.R;
@@ -35,9 +35,9 @@ import staff.com.ui.ZoneActivity;
 
 public class ZoneFragment extends Fragment {
 
-    @Bind(R.id.zone_list)
+    @BindView(R.id.zone_list)
     ExpandableListView zoneList;
-    @Bind(R.id.edt_title_id)
+    @BindView(R.id.edt_title_id)
     TextInputEditText edtTitleID;
 
     private ArrayList<WarehouseItem> warehouseItems = new ArrayList<>();

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import staff.com.R;
 import staff.com.fragment.StaffFragment;
@@ -77,11 +77,11 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.StaffViewHol
     public class StaffViewHolder extends RecyclerView.ViewHolder {
         public final View view;
 
-        @Bind(R.id.staff_layout)
+        @BindView(R.id.staff_layout)
         LinearLayout staffLayout;
-        @Bind(R.id.iv_highlight)
+        @BindView(R.id.iv_highlight)
         ImageView ivHighlight;
-        @Bind(R.id.tv_staff_name)
+        @BindView(R.id.tv_staff_name)
         TextView tvStaff;
 
         public StaffViewHolder(View view) {

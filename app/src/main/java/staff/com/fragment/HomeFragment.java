@@ -17,7 +17,7 @@ import android.widget.Toast;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import staff.com.R;
@@ -44,16 +44,16 @@ public class HomeFragment extends Fragment {
 
     private ProgressDialog progressDialog;
 
-    @Bind(R.id.btn_upload_stock)
+    @BindView(R.id.btn_upload_stock)
     RelativeLayout btnUploadStock;
 
-    @Bind(R.id.btn_upload_modified_stock)
+    @BindView(R.id.btn_upload_modified_stock)
     RelativeLayout btnUploadModifiedStock;
 
-    @Bind(R.id.iv_update_stock)
+    @BindView(R.id.iv_update_stock)
     ImageView ivUpdateStock;
 
-    @Bind(R.id.iv_update_modified_stock)
+    @BindView(R.id.iv_update_modified_stock)
     ImageView ivUpdateModifiedStock;
 
     private int uploadState = 0;        // 1; Upload Warehouse,  2: Upload Modified Stock

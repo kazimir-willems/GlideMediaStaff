@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import staff.com.R;
 import staff.com.db.BayDB;
@@ -24,13 +24,13 @@ import staff.com.model.ZoneItem;
 
 public class StockActivity extends AppCompatActivity
 {
-    @Bind(R.id.view_pager)
+    @BindView(R.id.view_pager)
     ViewPager viewPager;
-    @Bind(R.id.tv_staff_name)
+    @BindView(R.id.tv_staff_name)
     TextView tvStaff;
-    @Bind(R.id.tv_warehouse)
+    @BindView(R.id.tv_warehouse)
     TextView tvWarehouse;
-    @Bind(R.id.tv_zone)
+    @BindView(R.id.tv_zone)
     TextView tvZone;
 
     private StaffItem staffItem;

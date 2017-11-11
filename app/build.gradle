@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "staff.com"
         minSdkVersion 16
@@ -32,8 +32,9 @@ dependencies {
     compile 'com.madgag.spongycastle:prov:1.54.0.0'
     compile 'com.madgag.spongycastle:pkix:1.54.0.0'
     compile 'com.madgag.spongycastle:pg:1.54.0.0'
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile files('libs/eventbus-3.0.0.jar')
-    compile files('libs/butterknife-7.0.1.jar')
     testCompile 'junit:junit:4.12'
     compile 'com.thoughtbot:expandablerecyclerview:1.0'
 }

@@ -16,7 +16,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import staff.com.R;
@@ -32,9 +32,9 @@ public class LoginActivity extends AppCompatActivity {
     //defining views
     private ProgressDialog progressDialog;
 
-    @Bind(R.id.edt_user_name)
+    @BindView(R.id.edt_user_name)
     TextInputEditText edtUserName;
-    @Bind(R.id.edt_password)
+    @BindView(R.id.edt_password)
     TextInputEditText edtPassword;
 
     private Animation shake;

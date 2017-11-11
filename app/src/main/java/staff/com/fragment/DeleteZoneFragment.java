@@ -12,7 +12,7 @@ import android.widget.ExpandableListView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import staff.com.R;
 import staff.com.adapter.AdminWarehouseAdapter;
@@ -26,9 +26,9 @@ import staff.com.model.ZoneItem;
 
 public class DeleteZoneFragment extends Fragment {
 
-    @Bind(R.id.zone_list)
+    @BindView(R.id.zone_list)
     ExpandableListView zoneList;
-    @Bind(R.id.whole_layout)
+    @BindView(R.id.whole_layout)
     CoordinatorLayout wholeLayout;
 
     private AdminWarehouseAdapter adapter;
