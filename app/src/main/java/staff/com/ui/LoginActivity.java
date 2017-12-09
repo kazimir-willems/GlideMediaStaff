@@ -111,8 +111,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean checkPassword() {
-        if (StringUtil.isEmpty(username)) {
-            showInfoNotice(edtUserName);
+        if (StringUtil.isEmpty(password)) {
+            showInfoNotice(edtPassword);
             return false;
         }
 

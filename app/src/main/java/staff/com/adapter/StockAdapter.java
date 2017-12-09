@@ -23,6 +23,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Handler;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -218,11 +219,11 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
                 ArrayAdapter zoneAdapter = new ArrayAdapter(StockAdapter.this.parent.getActivity(), android.R.layout.simple_spinner_dropdown_item, zoneItems);
                 holder.zoneSpin.setAdapter(zoneAdapter);
 
-                    for(int i = 0; i < zoneItems.size(); i++) {
-                        if(item.getZoneID().equals(zoneItems.get(i).getZoneID())) {
-                            holder.zoneSpin.setSelection(i);
-                        }
+                for(int i = 0; i < zoneItems.size(); i++) {
+                    if(item.getNewZone().equals(zoneItems.get(i).getZoneID())) {
+                        holder.zoneSpin.setSelection(i);
                     }
+                }
 
                 selectedWarehousePos = position;
             }
@@ -245,7 +246,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
                 selectedZonePos = position;
 
                     for(int i = 0; i < bayItems.size(); i++) {
-                        if(item.getBayID().equals(bayItems.get(i).getBayID())) {
+                        if(item.getNewBay().equals(bayItems.get(i).getBayID())) {
                             holder.baySpin.setSelection(i);
                         }
                     }
@@ -416,8 +417,19 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
             }
         }
 
+        android.os.Handler handler = new android.os.Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                for(int i = 0; i < warehouseItems.size(); i++) {
+                    if(warehouseItems.get(i).getId().equals(item.getNewWarehouse())) {
+                        holder.warehouseSpin.setSelection(i);
+                    }
+                }
+            }
+        };
 
-
+        handler.postDelayed(runnable, 300);
 
     }
 
