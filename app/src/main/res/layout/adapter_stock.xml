@@ -295,12 +295,14 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             style="@style/TextBranch"
+            android:visibility="gone"
             android:text="@string/hint_move_location"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="0dp"
@@ -331,7 +333,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <Spinner
                 android:id="@+id/warehouse_spinner"

@@ -282,6 +282,14 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
                     newTotal = 0;
                     holder.tvNewTotal.setText("0");
                 }
+
+                if(currentIssueItem.getIssueName().equals("Empty")) {
+                    holder.edtPallets.setText("0");
+                    holder.edtBoxes.setText("0");
+                    holder.edtLoose.setText("0");
+                    newTotal = 0;
+                    holder.tvNewTotal.setText("0");
+                }
             }
 
             @Override
