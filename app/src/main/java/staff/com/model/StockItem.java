@@ -35,6 +35,7 @@ public class StockItem implements Serializable {
     private String dateTimeStamp;
     private String staffID;
     private String stockReceived;
+    private String xLocation;
     private int completed;
 
 
@@ -247,6 +248,14 @@ public class StockItem implements Serializable {
 
     public String getStaffID() {
         return staffID;
+    }
+
+    public void setXLocation(String value) {
+        this.xLocation = value;
+    }
+
+    public String getXLocation() {
+        return xLocation;
     }
 
     public void setCompleted(int value) {

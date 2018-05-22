@@ -24,9 +24,10 @@ public class StockDB extends DBHelper {
         ArrayList<StockItem> ret = null;
         try {
             String szWhere = DBConsts.FIELD_WAREHOUSE_ID + " = '" + item.getWarehouseID() + "' AND " + DBConsts.FIELD_ZONE_ID + " = '" + item.getZoneID() + "' AND " + DBConsts.FIELD_BAY_ID + " = '" + item.getBayID() + "'";
+            String szOrder = DBConsts.FIELD_XLOCATION + " ASC";
             synchronized (DB_LOCK) {
                 SQLiteDatabase db = getReadableDatabase();
-                Cursor cursor = db.query(DBConsts.TABLE_NAME_STOCK, null, szWhere, null, null, null, null);
+                Cursor cursor = db.query(DBConsts.TABLE_NAME_STOCK, null, szWhere, null, null, null, szOrder);
                 ret = createStockBeans(cursor);
                 db.close();
             }
@@ -41,9 +42,10 @@ public class StockDB extends DBHelper {
         ArrayList<StockItem> ret = null;
         try {
             String szWhere = DBConsts.FIELD_WAREHOUSE_ID + " = '" + bayItem.getWarehouseID() + "' AND " + DBConsts.FIELD_ZONE_ID + " = '" + bayItem.getZoneID() + "' AND " + DBConsts.FIELD_BAY_ID + " = '" + bayItem.getBayID() + "' AND " + DBConsts.FIELD_COMPLETED + " = " + StateConsts.STATE_COMPLETED;
+            String szOrder = DBConsts.FIELD_XLOCATION + " ASC";
             synchronized (DB_LOCK) {
                 SQLiteDatabase db = getReadableDatabase();
-                Cursor cursor = db.query(DBConsts.TABLE_NAME_STOCK, null, szWhere, null, null, null, null);
+                Cursor cursor = db.query(DBConsts.TABLE_NAME_STOCK, null, szWhere, null, null, null, szOrder);
                 ret = createStockBeans(cursor);
                 db.close();
             }
@@ -58,9 +60,10 @@ public class StockDB extends DBHelper {
         ArrayList<StockItem> ret = null;
         try {
             String szWhere = DBConsts.FIELD_TITLE_ID + " = '" + titleID + "'";
+            String szOrder = DBConsts.FIELD_XLOCATION + " ASC";
             synchronized (DB_LOCK) {
                 SQLiteDatabase db = getReadableDatabase();
-                Cursor cursor = db.query(DBConsts.TABLE_NAME_STOCK, null, szWhere, null, null, null, null);
+                Cursor cursor = db.query(DBConsts.TABLE_NAME_STOCK, null, szWhere, null, null, null, szOrder);
                 ret = createStockBeans(cursor);
                 db.close();
             }
@@ -139,6 +142,7 @@ public class StockDB extends DBHelper {
                 value.put(DBConsts.FIELD_DATE_TIMESTAMP, bean.getDateTimeStamp());
                 value.put(DBConsts.FIELD_STAFF_ID, bean.getStaffID());
                 value.put(DBConsts.FIELD_STOCK_RECEIVED, bean.getStockReceived());
+                value.put(DBConsts.FIELD_XLOCATION, bean.getXLocation());
                 value.put(DBConsts.FIELD_COMPLETED, bean.getCompleted());
                 synchronized (DB_LOCK) {
                     SQLiteDatabase db = getWritableDatabase();
@@ -278,6 +282,7 @@ public class StockDB extends DBHelper {
                     COL_DATETIME_STAMP  		= c.getColumnIndexOrThrow(DBConsts.FIELD_DATE_TIMESTAMP),
                     COL_STAFF_ID     	 	    = c.getColumnIndexOrThrow(DBConsts.FIELD_STAFF_ID),
                     COL_STOCK_RECEIVED          = c.getColumnIndexOrThrow(DBConsts.FIELD_STOCK_RECEIVED),
+                    COL_XLOCATION               = c.getColumnIndexOrThrow(DBConsts.FIELD_XLOCATION),
                     COL_COMPLETED               = c.getColumnIndexOrThrow(DBConsts.FIELD_COMPLETED);
 
             while (c.moveToNext()) {
@@ -309,6 +314,7 @@ public class StockDB extends DBHelper {
                 bean.setDateTimeStamp(c.getString(COL_DATETIME_STAMP));
                 bean.setStaffID(c.getString(COL_STAFF_ID));
                 bean.setStockReceived(c.getString(COL_STOCK_RECEIVED));
+                bean.setXLocation(c.getString(COL_XLOCATION));
                 bean.setCompleted(c.getInt(COL_COMPLETED));
                 ret.add(bean);
             }

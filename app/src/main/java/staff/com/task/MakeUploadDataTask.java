@@ -87,6 +87,7 @@ public class MakeUploadDataTask extends AsyncTask<Void, Void, String> {
                         jsonStockItem.put("newBay", stockItem.getNewBay());
                         jsonStockItem.put("datetimestamp", stockItem.getDateTimeStamp());
                         jsonStockItem.put("staffid", stockItem.getStaffID());
+                        jsonStockItem.put("xLocation", stockItem.getXLocation());
                         jsonStockItem.put("stockrecieved", stockItem.getStockReceived());
 
                         jsonStockArray.put(jsonStockItem);

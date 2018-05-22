@@ -56,6 +56,7 @@ public class DBConsts {
     public static final String FIELD_NEW_BAY = "new_bay";
     public static final String FIELD_STOCK_RECEIVED = "stock_received";
     public static final String FIELD_DATE_TIMESTAMP = "datetimestamp";
+    public static final String FIELD_XLOCATION = "xLocation";
 
     public static final String FIELD_OTHER_ID = "other_id";
 }

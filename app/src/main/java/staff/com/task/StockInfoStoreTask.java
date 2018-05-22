@@ -161,6 +161,7 @@ public class StockInfoStoreTask extends AsyncTask<DownloadStockInfoResponseVo, V
                     stockItem.setNewBay(jsonStockItem.getString("newBay"));
                     stockItem.setDateTimeStamp(jsonStockItem.getString("datetimestamp"));
                     stockItem.setStaffID(jsonStockItem.getString("staffid"));
+                    stockItem.setXLocation(jsonStockItem.getString("xLocation"));
                     stockItem.setStockReceived(jsonStockItem.getString("stockrecieved"));
 
                     JSONArray jsonOtherArray = new JSONArray(jsonStockItem.getString("otherlocation"));
